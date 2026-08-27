@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# <img src="public/logotransp2.png" height="50" style="vertical-align: text-bottom; margin-bottom: -5px; margin-right: -10px;" />etrôa
 
-## Getting Started
+O **Retrôa** é um e-commerce de antiguidades garimpadas pelo Brasil. A proposta do projeto é dar um novo destino a peças antigas, reunindo em um só lugar um catálogo organizado com a história, origem e detalhes de cada item.
 
-First, run the development server:
+## Sobre o projeto
+
+O Retrôa foi desenvolvido com foco em uma experiência de compra simples e visual, valorizando não apenas o produto, mas também a história por trás de cada peça.
+
+## Funcionalidades
+
+* **Vitrine de produtos:** exibe as peças disponíveis com foto, nome, preço, ano de fabricação e cidade de origem.
+* **Busca e filtros:** permite pesquisar produtos pelo nome ou cidade e filtrar o acervo por categorias, como música, decoração e escritório.
+* **Detalhes do produto:** ao clicar em uma peça, é possível visualizar suas informações, história e fotos em tamanho maior.
+* **Sacola de compras:** permite adicionar produtos à sacola e acompanha a quantidade de itens por meio de um contador dinâmico.
+* **Página Sobre:** apresenta a história da marca e explica o processo de garimpo, seleção e envio das peças.
+
+## Tecnologias utilizadas
+
+* **Next.js** — App Router
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+* **Lucide React** — ícones
+* **Supabase** — integração com banco de dados
+
+## Como executar o projeto
+
+### Pré-requisitos
+
+Antes de começar, tenha instalado:
+
+* [Node.js](https://nodejs.org/)
+* npm, que já acompanha o Node.js
+
+### Instalação
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/retroa.git
+```
+
+Entre na pasta do projeto:
+
+```bash
+cd retroa
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+### Executando o projeto
+
+Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Depois, acesse no navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estrutura do projeto
 
-## Learn More
+O projeto utiliza o **App Router do Next.js**, organizando as páginas e componentes de forma modular para facilitar a manutenção e evolução da aplicação.
 
-To learn more about Next.js, take a look at the following resources:
+## Status do projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Em desenvolvimento.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O projeto possui a interface principal e as funcionalidades de navegação, catálogo, busca, filtros e sacola. A integração com o **Supabase** está em andamento.
 
-## Deploy on Vercel
+## Objetivo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital para quem gosta de peças com história e personalidade, além de valorizar objetos que podem ganhar um novo destino.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Desenvolvido por
+
+* **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
+* **Julia Santos** - [@juliasantos-Git](https://github.com/juliasantos-Git)
+
+Projeto acadêmico desenvolvido para fins de estudo e avaliação.
