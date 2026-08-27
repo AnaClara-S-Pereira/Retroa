@@ -82,4 +82,11 @@ O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital
 
 ## Autor
 
+<<<<<<< HEAD
 Desenvolvido por **Ana Clara Santos Pereira**.
+=======
+* **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
+* **Julia Santos** - [@juliasantos-Git](https://github.com/juliasantos-Git)
+
+Projeto acadêmico desenvolvido para fins de estudo e avaliação.
+>>>>>>> e64fbced0f215ce7794c690cbbe455c8405dc4c7
