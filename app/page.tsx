@@ -345,15 +345,8 @@ export default function Home() {
         </section>
 
         {/* SECAO COMO TRABALHAMOS */}
-        <section className="relative overflow-hidden border-y border-[#2C221E]/10 py-16">
-          {/* Imagem de fundo */}
-          <img
-            src="https://i.pinimg.com/1200x/34/94/d0/3494d015d062cdd6883e3ebb0fa1fd8f.jpg"
-            alt="Fundo Vintage"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-40 pointer-events-none"
-          />
-          <div className="absolute inset-0 bg-[#2C221E]/75 backdrop-blur-sm" />
-
+        <section className="relative overflow-hidden bg-[#2F704B] border-y border-[#2C221E]/10 py-16">
+          <div className="bg-zinc-900/90 w-full" />
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
               <h2 className="font-vintage text-3xl font-medium text-[#F4EFE6]">Como Trabalhamos</h2>

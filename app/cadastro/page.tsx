@@ -18,7 +18,7 @@ export default function CadastroPage() {
         e.preventDefault();
         setCarregando(true);
 
-        // Salvando na tabela Clientes do Supabase
+        // SALVA TABELA CLIENTES NO SUPABASE
         const { data, error } = await supabase
             .from("Clientes")
             .insert([
@@ -33,12 +33,12 @@ export default function CadastroPage() {
             return;
         }
 
-        // Salva a sessão localmente para manter o usuário logado
+        // SALVA OS DADOS DO CLIENTE NO LOCAL STORAGE 
         const clienteCriado = data ? data[0] : { nome, email, telefone, endereco };
         localStorage.setItem("retroa_sessao", JSON.stringify(clienteCriado));
 
         alert("Conta criada com sucesso no Supabase!");
-        window.location.href = "/carrinho";
+        window.location.href = "/login";
     };
 
     return (

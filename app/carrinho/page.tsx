@@ -47,7 +47,6 @@ export default function CarrinhoPage() {
         const cliente = JSON.parse(sessaoStr);
         setCarregando(true);
 
-        // Transformamos os itens em texto/string para garantir que o Supabase aceite na coluna
         const nomesItens = itensCarrinho.map(i => i.nome).join(", ");
 
         const novoPedido = {

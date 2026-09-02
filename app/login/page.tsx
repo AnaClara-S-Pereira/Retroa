@@ -15,7 +15,7 @@ export default function LoginPage() {
         e.preventDefault();
         setCarregando(true);
 
-        // Busca o cliente no Supabase pelo e-mail e senha correspondentes
+        // BUSCA A PESSOA PELO EMAIL E SENHA NO SUPABASE
         const { data, error } = await supabase
             .from("Clientes")
             .select("*")
@@ -30,7 +30,7 @@ export default function LoginPage() {
             return;
         }
 
-        // Salva a sessão do usuário encontrado no navegador
+        // SALVA A SESSÃO DO USUÁRIO ENCONTRADO NO NAVEGADOR
         localStorage.setItem("retroa_sessao", JSON.stringify(data));
 
         alert("Login realizado com sucesso!");
