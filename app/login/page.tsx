@@ -15,23 +15,24 @@ export default function LoginPage() {
         e.preventDefault();
         setCarregando(true);
 
-        // Busca o cliente no Supabase pelo e-mail e senha correspondentes
-        const { data, error } = await supabase
-            .from("Clientes")
-            .select("*")
-            .eq("email", email)
-            .eq("senha", senha)
-            .single();
+        // Verifica o login chamando a função do Supabase que compara a senha com o hash salvo
+        const { data, error } = await supabase.rpc("verificar_login", {
+            email_input: email,
+            senha_input: senha,
+        });
 
-        if (error || !data) {
+        if (error || !data || data.length === 0) {
             console.error("Erro no login:", error?.message);
             alert("E-mail ou senha incorretos.");
             setCarregando(false);
             return;
         }
 
-        // Salva a sessão do usuário encontrado no navegador
-        localStorage.setItem("retroa_sessao", JSON.stringify(data));
+        const cliente = data[0];
+
+        // Salva a sessão do usuário encontrado no navegador (sem o hash da senha)
+        const { senha: _senhaOmitida, ...clienteSemSenha } = cliente;
+        localStorage.setItem("retroa_sessao", JSON.stringify(clienteSemSenha));
 
         alert("Login realizado com sucesso!");
         window.location.href = "/carrinho";

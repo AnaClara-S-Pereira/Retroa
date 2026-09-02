@@ -345,23 +345,26 @@ export default function Home() {
         </section>
 
         {/* SECAO COMO TRABALHAMOS */}
-        <section className="relative overflow-hidden border-y border-[#2C221E]/10 py-16">
-          {/* Imagem de fundo */}
-          <img
-            src="https://i.pinimg.com/1200x/34/94/d0/3494d015d062cdd6883e3ebb0fa1fd8f.jpg"
-            alt="Fundo Vintage"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-40 pointer-events-none"
-          />
-          <div className="absolute inset-0 bg-[#2C221E]/75 backdrop-blur-sm" />
+        <section
+          className="relative overflow-hidden border-y border-[#2C221E]/10 py-16"
+          style={{
+            backgroundColor: "#1C7A4F",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Crect width='170' height='170' fill='%231C7A4F'/%3E%3Cg opacity='0.55'%3E%3Cpath d='M85 85 L92 78 L99 85 L92 92 Z' fill='%23145C3B'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M35 22 C46 30 46 50 35 60 C24 50 24 30 35 22 Z' fill='%23C85A32'/%3E%3Cpath d='M35 22 C24 30 24 50 35 60' fill='none' stroke='%238F3D1F' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='35' cy='40' r='4.5' fill='%23E3B04B'/%3E%3Cpath d='M20 35 C15 38 15 44 20 47' fill='none' stroke='%23C85A32' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M50 35 C55 38 55 44 50 47' fill='none' stroke='%23C85A32' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M132 95 C143 103 143 123 132 133 C121 123 121 103 132 95 Z' fill='%23E3B04B'/%3E%3Ccircle cx='132' cy='113' r='4.5' fill='%23C85A32'/%3E%3Cpath d='M117 108 C112 111 112 117 117 120' fill='none' stroke='%23E3B04B' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M147 108 C152 111 152 117 147 120' fill='none' stroke='%23E3B04B' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3Cg fill='%23C85A32' opacity='0.8'%3E%3Ccircle cx='120' cy='30' r='6'/%3E%3Ccircle cx='120' cy='30' r='2' fill='%23E3B04B'/%3E%3C/g%3E%3Cg fill='%23E3B04B' opacity='0.75'%3E%3Ccircle cx='30' cy='128' r='5'/%3E%3Ccircle cx='30' cy='128' r='1.8' fill='%23C85A32'/%3E%3C/g%3E%3Cg fill='none' stroke='%23F4EFE6' stroke-width='1.4' opacity='0.55'%3E%3Ccircle cx='8' cy='95' r='2.2'/%3E%3Ccircle cx='18' cy='101' r='2.2'/%3E%3Ccircle cx='12' cy='110' r='2.2'/%3E%3Ccircle cx='22' cy='112' r='2.2'/%3E%3Ccircle cx='95' cy='12' r='2.2'/%3E%3Ccircle cx='105' cy='6' r='2.2'/%3E%3Ccircle cx='109' cy='18' r='2.2'/%3E%3Ccircle cx='99' cy='22' r='2.2'/%3E%3Ccircle cx='150' cy='60' r='2.2'/%3E%3Ccircle cx='158' cy='52' r='2.2'/%3E%3Ccircle cx='160' cy='68' r='2.2'/%3E%3Ccircle cx='65' cy='150' r='2.2'/%3E%3Ccircle cx='75' cy='158' r='2.2'/%3E%3Ccircle cx='72' cy='142' r='2.2'/%3E%3Ccircle cx='150' cy='140' r='2.2'/%3E%3Ccircle cx='160' cy='148' r='2.2'/%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: "170px 170px",
+            backgroundRepeat: "repeat",
+          }}
+        >
+          {/* Leve sombreado só nas bordas, pra estampa não brigar com o texto */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/25 pointer-events-none" />
 
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
-              <h2 className="font-vintage text-3xl font-medium text-[#F4EFE6]">Como Trabalhamos</h2>
-              <p className="text-xs text-[#EAE3D2]/80 uppercase tracking-wider">O cuidado por trás de cada detalhe do catálogo</p>
+              <h2 className="font-vintage text-3xl font-medium text-[#F4EFE6] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">Como Trabalhamos</h2>
+              <p className="text-xs text-[#F4EFE6]/90 uppercase tracking-wider drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">O cuidado por trás de cada detalhe do catálogo</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-[#F4EFE6]/90 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
+              <div className="bg-[#F4EFE6]/95 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <Compass className="w-5 h-5 text-[#2C221E]" />
                 </div>
@@ -371,7 +374,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="bg-[#F4EFE6]/90 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
+              <div className="bg-[#F4EFE6]/95 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <Sparkles className="w-5 h-5 text-[#2C221E]" />
                 </div>
@@ -381,7 +384,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="bg-[#F4EFE6]/90 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
+              <div className="bg-[#F4EFE6]/95 backdrop-blur-sm p-8 rounded-lg border border-[#2C221E]/10 shadow-sm space-y-4 hover:border-[#C85A32]/40 transition-all">
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <HeartHandshake className="w-5 h-5 text-[#2C221E]" />
                 </div>
