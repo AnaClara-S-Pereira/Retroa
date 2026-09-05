@@ -359,6 +359,16 @@ export default function Home() {
               ))}
             </div>
           )}
+
+          <div className="text-center mt-12">
+            <Link
+              href="/produtos"
+              className="inline-flex items-center gap-2 border border-[#2C221E]/20 text-[#2C221E] text-xs font-semibold uppercase tracking-wider px-6 py-3 rounded-md hover:bg-[#2C221E] hover:text-[#F4EFE6] transition-all"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              Ver Catálogo Completo
+            </Link>
+          </div>
         </section>
 
         {/* SEÇÃO SOBRE (INCORPORADA) */}

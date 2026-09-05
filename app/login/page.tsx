@@ -15,27 +15,36 @@ export default function LoginPage() {
         e.preventDefault();
         setCarregando(true);
 
-        // Verifica o login chamando a função do Supabase que compara a senha com o hash salvo
-        const { data, error } = await supabase.rpc("verificar_login", {
+        // 1. Tenta como login de cliente
+        const { data: dataCliente } = await supabase.rpc("verificar_login", {
             email_input: email,
             senha_input: senha,
         });
 
-        if (error || !data || data.length === 0) {
-            console.error("Erro no login:", error?.message);
-            alert("E-mail ou senha incorretos.");
-            setCarregando(false);
+        if (dataCliente && dataCliente.length > 0) {
+            const cliente = dataCliente[0];
+            const { senha: _senhaOmitida, ...clienteSemSenha } = cliente;
+            localStorage.setItem("retroa_sessao", JSON.stringify(clienteSemSenha));
+            alert("Login realizado com sucesso!");
+            window.location.href = "/carrinho";
             return;
         }
 
-        const cliente = data[0];
+        // 2. Se não bateu como cliente, tenta como administrador
+        const { data: dataAdmin } = await supabase.rpc("verificar_login_admin", {
+            email_input: email,
+            senha_input: senha,
+        });
 
-        // Salva a sessão do usuário encontrado no navegador (sem o hash da senha)
-        const { senha: _senhaOmitida, ...clienteSemSenha } = cliente;
-        localStorage.setItem("retroa_sessao", JSON.stringify(clienteSemSenha));
+        if (dataAdmin && dataAdmin.length > 0) {
+            localStorage.setItem("retroa_admin_sessao", "true");
+            window.location.href = "/adm";
+            return;
+        }
 
-        alert("Login realizado com sucesso!");
-        window.location.href = "/carrinho";
+        // 3. Não bateu em nenhum dos dois
+        alert("E-mail ou senha incorretos.");
+        setCarregando(false);
     };
 
     return (
