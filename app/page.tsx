@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, ShoppingBag, X, Check, ShieldCheck, Truck, User, ArrowLeft, Compass, Sparkles, HeartHandshake } from "lucide-react";
+import {
+  Search,
+  ShoppingBag,
+  X,
+  Check,
+  ShieldCheck,
+  Truck,
+  User,
+  ArrowLeft,
+  Compass,
+  Sparkles,
+  HeartHandshake,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,10 +23,11 @@ const PRODUTOS_MOCK = [
     nome: "Vaso de cerâmica artesanal marajoara",
     categoria: "Cerâmica",
     origem: "Santarém, PA",
-    preco: 480.00,
+    preco: 480.0,
     ano: "1965",
     tag: "Peça Única",
-    descricao: "Vaso em cerâmica artesanal com grafismos geométricos tradicionais feitos à mão. Acabamento natural em tom terracota.",
+    descricao:
+      "Vaso em cerâmica artesanal com grafismos geométricos tradicionais feitos à mão. Acabamento natural em tom terracota.",
     imagem: "/vaso.png",
   },
   {
@@ -22,10 +35,11 @@ const PRODUTOS_MOCK = [
     nome: "Máquina de escrever Remington vintage",
     categoria: "Escritório",
     origem: "São Paulo, SP",
-    preco: 950.00,
+    preco: 950.0,
     ano: "1948",
     tag: "Revisada",
-    descricao: "Máquina de escrever portátil em estrutura metálica preta com pátina do tempo. Mecanismo de teclas preservado.",
+    descricao:
+      "Máquina de escrever portátil em estrutura metálica preta com pátina do tempo. Mecanismo de teclas preservado.",
     imagem: "/maquinaEscrever.png",
   },
   {
@@ -33,10 +47,11 @@ const PRODUTOS_MOCK = [
     nome: "Abajur de mesa em latão e cúpula de vidro",
     categoria: "Iluminação",
     origem: "Petrópolis, RJ",
-    preco: 720.00,
+    preco: 720.0,
     ano: "1955",
     tag: "Funcionando",
-    descricao: "Luminária de mesa estilo banqueiro com corpo tubular em latão e cúpula cônica em vidro âmbar transpassado.",
+    descricao:
+      "Luminária de mesa estilo banqueiro com corpo tubular em latão e cúpula cônica em vidro âmbar transpassado.",
     imagem: "/abajur.png",
   },
   {
@@ -44,10 +59,11 @@ const PRODUTOS_MOCK = [
     nome: "Rádio de mesa em caixa de madeira nobre",
     categoria: "Música",
     origem: "Curitiba, PR",
-    preco: 1280.00,
+    preco: 1280.0,
     ano: "1958",
     tag: "Relíquia",
-    descricao: "Rádio AM/FM vintage em gabinete de madeira trabalhada com botões seletores e mostrador analógico iluminado.",
+    descricao:
+      "Rádio AM/FM vintage em gabinete de madeira trabalhada com botões seletores e mostrador analógico iluminado.",
     imagem: "/radio.png",
   },
   {
@@ -55,10 +71,11 @@ const PRODUTOS_MOCK = [
     nome: "Espelho de parede com moldura dourada entalhada",
     categoria: "Decoração",
     origem: "Ouro Preto, MG",
-    preco: 1150.00,
+    preco: 1150.0,
     ano: "1930",
     tag: "Raro",
-    descricao: "Espelho clássico retangular com moldura entalhada em gesso e acabamento em folha de ouro envelhecida.",
+    descricao:
+      "Espelho clássico retangular com moldura entalhada em gesso e acabamento em folha de ouro envelhecida.",
     imagem: "/espelho.png",
   },
   {
@@ -66,15 +83,24 @@ const PRODUTOS_MOCK = [
     nome: "Poltrona em madeira nobre e palhinha indiana",
     categoria: "Casa",
     origem: "Pelotas, RS",
-    preco: 2100.00,
+    preco: 2100.0,
     ano: "1962",
     tag: "Achado",
-    descricao: "Poltrona com estrutura em jacarandá maciço, braços anatômicos e encosto/assento em palhinha trançada natural.",
+    descricao:
+      "Poltrona com estrutura em jacarandá maciço, braços anatômicos e encosto/assento em palhinha trançada natural.",
     imagem: "/cadeira.png",
   },
 ];
 
-const CATEGORIAS = ["Todas", "Cerâmica", "Escritório", "Iluminação", "Música", "Decoração", "Casa"];
+const CATEGORIAS = [
+  "Todas",
+  "Cerâmica",
+  "Escritório",
+  "Iluminação",
+  "Música",
+  "Decoração",
+  "Casa",
+];
 
 export default function Home() {
   const [busca, setBusca] = useState("");
@@ -89,7 +115,9 @@ export default function Home() {
     return [];
   });
 
-  const [produtoSelecionado, setProdutoSelecionado] = useState<any | null>(null);
+  const [produtoSelecionado, setProdutoSelecionado] = useState<any | null>(
+    null,
+  );
 
   useEffect(() => {
     const sessaoAtiva = localStorage.getItem("retroa_sessao");
@@ -101,16 +129,22 @@ export default function Home() {
   }, [carrinho]);
 
   const produtosFiltrados = PRODUTOS_MOCK.filter((p) => {
-    const atendeCategoria = categoriaAtiva === "Todas" || p.categoria === categoriaAtiva;
-    const atendeBusca = p.nome.toLowerCase().includes(busca.toLowerCase()) ||
+    const atendeCategoria =
+      categoriaAtiva === "Todas" || p.categoria === categoriaAtiva;
+    const atendeBusca =
+      p.nome.toLowerCase().includes(busca.toLowerCase()) ||
       p.origem.toLowerCase().includes(busca.toLowerCase());
     return atendeCategoria && atendeBusca;
   });
 
-  const adicionarAoCarrinho = (id: string) => setCarrinho((prev) => [...prev, id]);
+  const adicionarAoCarrinho = (id: string) =>
+    setCarrinho((prev) => [...prev, id]);
 
   const formatarPreco = (valor: number) =>
-    Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    Number(valor).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
 
   return (
     <>
@@ -120,7 +154,6 @@ export default function Home() {
       `}</style>
 
       <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased relative">
-
         {/* NAVBAR */}
         <nav className="sticky top-0 z-40 bg-[#F4EFE6]/95 backdrop-blur-md border-b border-[#2C221E]/10">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
@@ -147,8 +180,18 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-6 text-xs font-semibold tracking-wider uppercase text-[#5F4E44]">
-              <a href="#produtos" className="hover:text-[#2C221E] transition-colors">Produtos</a>
-              <a href="#sobre" className="hover:text-[#2C221E] transition-colors">Sobre</a>
+              <a
+                href="#produtos"
+                className="hover:text-[#2C221E] transition-colors"
+              >
+                Produtos
+              </a>
+              <a
+                href="#sobre"
+                className="hover:text-[#2C221E] transition-colors"
+              >
+                Sobre
+              </a>
 
               <Link
                 href="/carrinho"
@@ -209,21 +252,30 @@ export default function Home() {
                 Loja de Antiguidades
               </span>
               <h1 className="font-vintage text-4xl md:text-5xl font-medium leading-[1.1] text-[#2C221E]">
-                Objetos com <span className="italic font-normal">história e memória</span>.
+                Objetos com{" "}
+                <span className="italic font-normal">história e memória</span>.
               </h1>
               <p className="text-sm text-[#4A3E37] leading-relaxed max-w-md">
-                Peças únicas por todo o Brasil, que mostram um pouco do passado e a originalidade do tempo.
+                Peças únicas por todo o Brasil, que mostram um pouco do passado
+                e a originalidade do tempo.
               </p>
             </div>
           </div>
         </header>
 
         {/* CATALOGO DE PRODUTOS */}
-        <section id="produtos" className="max-w-7xl mx-auto px-6 py-16 scroll-mt-20">
+        <section
+          id="produtos"
+          className="max-w-7xl mx-auto px-6 py-16 scroll-mt-20"
+        >
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#2C221E]/10 pb-4 mb-8 gap-4">
             <div>
-              <h2 className="font-vintage text-3xl font-medium text-[#2C221E]">Catálogo</h2>
-              <p className="text-xs text-[#5F4E44] mt-1">{produtosFiltrados.length} itens disponíveis para compra</p>
+              <h2 className="font-vintage text-3xl font-medium text-[#2C221E]">
+                Catálogo
+              </h2>
+              <p className="text-xs text-[#5F4E44] mt-1">
+                {produtosFiltrados.length} itens disponíveis para compra
+              </p>
             </div>
 
             <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
@@ -231,10 +283,11 @@ export default function Home() {
                 <button
                   key={cat}
                   onClick={() => setCategoriaAtiva(cat)}
-                  className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
-                    ? "bg-[#2C221E] text-[#F4EFE6]"
-                    : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
-                    }`}
+                  className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${
+                    categoriaAtiva === cat
+                      ? "bg-[#2C221E] text-[#F4EFE6]"
+                      : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+                  }`}
                 >
                   {cat}
                 </button>
@@ -258,7 +311,10 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {produtosFiltrados.map((item) => (
-                <div key={item.id} className="group block bg-[#EAE3D2]/30 rounded-lg p-3 border border-[#2C221E]/5 hover:border-[#2C221E]/20 transition-all">
+                <div
+                  key={item.id}
+                  className="group block bg-[#EAE3D2]/30 rounded-lg p-3 border border-[#2C221E]/5 hover:border-[#2C221E]/20 transition-all"
+                >
                   <div
                     onClick={() => setProdutoSelecionado(item)}
                     className="relative w-full h-[280px] rounded overflow-hidden mb-3 bg-[#EADFD0] cursor-pointer"
@@ -303,23 +359,45 @@ export default function Home() {
               ))}
             </div>
           )}
+
+          <div className="text-center mt-12">
+            <Link
+              href="/produtos"
+              className="inline-flex items-center gap-2 border border-[#2C221E]/20 text-[#2C221E] text-xs font-semibold uppercase tracking-wider px-6 py-3 rounded-md hover:bg-[#2C221E] hover:text-[#F4EFE6] transition-all"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              Ver Catálogo Completo
+            </Link>
+          </div>
         </section>
 
         {/* SEÇÃO SOBRE (INCORPORADA) */}
-        <section id="sobre" className="relative max-w-7xl mx-auto px-6 py-20 border-t border-[#2C221E]/10 scroll-mt-20">
+        <section
+          id="sobre"
+          className="relative max-w-7xl mx-auto px-6 py-20 border-t border-[#2C221E]/10 scroll-mt-20"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
               <span className="inline-block text-[11px] font-semibold uppercase tracking-widest text-[#C85A32] bg-[#C85A32]/10 px-3 py-1 rounded-full border border-[#C85A32]/20">
                 Nossa História
               </span>
               <h2 className="font-vintage text-4xl sm:text-5xl font-medium leading-[1.15] text-[#2C221E]">
-                Resgatamos objetos que guardam a <span className="italic font-normal text-[#C85A32]">alma do tempo</span>.
+                Resgatamos objetos que guardam a{" "}
+                <span className="italic font-normal text-[#C85A32]">
+                  alma do tempo
+                </span>
+                .
               </h2>
               <p className="text-sm sm:text-base text-[#5F4E44] leading-relaxed font-light">
-                A Retrôa nasceu do fascínio pelas memórias contidas em cada textura, marca e pátina. Acreditamos que relíquias e antiguidades não são apenas itens de decoração, mas fragmentos vivos da história e da arte que merecem continuar seu ciclo.
+                A Retrôa nasceu do fascínio pelas memórias contidas em cada
+                textura, marca e pátina. Acreditamos que relíquias e
+                antiguidades não são apenas itens de decoração, mas fragmentos
+                vivos da história e da arte que merecem continuar seu ciclo.
               </p>
               <p className="text-sm sm:text-base text-[#5F4E44] leading-relaxed font-light">
-                Cada peça do nosso acervo é garimpada individualmente em diferentes cantos do Brasil, passando por um minucioso processo de conservação que respeita sua originalidade.
+                Cada peça do nosso acervo é garimpada individualmente em
+                diferentes cantos do Brasil, passando por um minucioso processo
+                de conservação que respeita sua originalidade.
               </p>
             </div>
 
@@ -337,7 +415,8 @@ export default function Home() {
 
               <div className="absolute -bottom-5 -left-4 bg-[#2C221E] text-[#F4EFE6] p-5 hidden sm:block max-w-xs shadow-2xl border border-[#7F5E39] rounded">
                 <p className="font-vintage italic text-sm leading-snug">
-                  "O tempo não desgasta a beleza, apenas a torna única e irrepetível."
+                  "O tempo não desgasta a beleza, apenas a torna única e
+                  irrepetível."
                 </p>
               </div>
             </div>
@@ -345,22 +424,27 @@ export default function Home() {
         </section>
 
         {/* SECAO COMO TRABALHAMOS */}
-        <section
-          className="relative overflow-hidden border-y border-[#2C221E]/10 py-16"
-          style={{
-            backgroundColor: "#1C7A4F",
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Crect width='170' height='170' fill='%231C7A4F'/%3E%3Cg opacity='0.55'%3E%3Cpath d='M85 85 L92 78 L99 85 L92 92 Z' fill='%23145C3B'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M35 22 C46 30 46 50 35 60 C24 50 24 30 35 22 Z' fill='%23C85A32'/%3E%3Cpath d='M35 22 C24 30 24 50 35 60' fill='none' stroke='%238F3D1F' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='35' cy='40' r='4.5' fill='%23E3B04B'/%3E%3Cpath d='M20 35 C15 38 15 44 20 47' fill='none' stroke='%23C85A32' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M50 35 C55 38 55 44 50 47' fill='none' stroke='%23C85A32' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M132 95 C143 103 143 123 132 133 C121 123 121 103 132 95 Z' fill='%23E3B04B'/%3E%3Ccircle cx='132' cy='113' r='4.5' fill='%23C85A32'/%3E%3Cpath d='M117 108 C112 111 112 117 117 120' fill='none' stroke='%23E3B04B' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M147 108 C152 111 152 117 147 120' fill='none' stroke='%23E3B04B' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3Cg fill='%23C85A32' opacity='0.8'%3E%3Ccircle cx='120' cy='30' r='6'/%3E%3Ccircle cx='120' cy='30' r='2' fill='%23E3B04B'/%3E%3C/g%3E%3Cg fill='%23E3B04B' opacity='0.75'%3E%3Ccircle cx='30' cy='128' r='5'/%3E%3Ccircle cx='30' cy='128' r='1.8' fill='%23C85A32'/%3E%3C/g%3E%3Cg fill='none' stroke='%23F4EFE6' stroke-width='1.4' opacity='0.55'%3E%3Ccircle cx='8' cy='95' r='2.2'/%3E%3Ccircle cx='18' cy='101' r='2.2'/%3E%3Ccircle cx='12' cy='110' r='2.2'/%3E%3Ccircle cx='22' cy='112' r='2.2'/%3E%3Ccircle cx='95' cy='12' r='2.2'/%3E%3Ccircle cx='105' cy='6' r='2.2'/%3E%3Ccircle cx='109' cy='18' r='2.2'/%3E%3Ccircle cx='99' cy='22' r='2.2'/%3E%3Ccircle cx='150' cy='60' r='2.2'/%3E%3Ccircle cx='158' cy='52' r='2.2'/%3E%3Ccircle cx='160' cy='68' r='2.2'/%3E%3Ccircle cx='65' cy='150' r='2.2'/%3E%3Ccircle cx='75' cy='158' r='2.2'/%3E%3Ccircle cx='72' cy='142' r='2.2'/%3E%3Ccircle cx='150' cy='140' r='2.2'/%3E%3Ccircle cx='160' cy='148' r='2.2'/%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: "170px 170px",
-            backgroundRepeat: "repeat",
-          }}
-        >
-          {/* Leve sombreado só nas bordas, pra estampa não brigar com o texto */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/25 pointer-events-none" />
+        <section className="relative overflow-hidden py-20">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/fundoverde.png"
+              alt="Estampa Retrôa"
+              fill
+              className="object-cover brightness-75 saturate-[1.6]"
+              priority
+            />
+          </div>
+          {/* Sombreado mais forte, pra garantir contraste com o texto branco */}
+          <div className="absolute inset-0 z-10 bg-black/30 pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-6">
+          <div className="relative z-20 max-w-7xl mx-auto px-6">
             <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
-              <h2 className="font-vintage text-3xl font-medium text-[#F4EFE6] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">Como Trabalhamos</h2>
-              <p className="text-xs text-[#F4EFE6]/90 uppercase tracking-wider drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">O cuidado por trás de cada detalhe do catálogo</p>
+              <h2 className="font-vintage text-3xl font-medium text-[#F4EFE6] drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]">
+                Como Trabalhamos
+              </h2>
+              <p className="text-xs text-[#F4EFE6]/90 uppercase tracking-wider drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">
+                O cuidado por trás de cada detalhe do catálogo
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -368,9 +452,12 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <Compass className="w-5 h-5 text-[#2C221E]" />
                 </div>
-                <h3 className="font-vintage text-xl text-[#2C221E]">Garimpo Atento</h3>
+                <h3 className="font-vintage text-xl text-[#2C221E]">
+                  Garimpo Atento
+                </h3>
                 <p className="text-xs text-[#5F4E44] leading-relaxed">
-                  Percorremos feiras, casarões históricos e acervos particulares por todo o país em busca de achados raros e singulares.
+                  Percorremos feiras, casarões históricos e acervos particulares
+                  por todo o país em busca de achados raros e singulares.
                 </p>
               </div>
 
@@ -378,9 +465,12 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <Sparkles className="w-5 h-5 text-[#2C221E]" />
                 </div>
-                <h3 className="font-vintage text-xl text-[#2C221E]">Preservação Consciente</h3>
+                <h3 className="font-vintage text-xl text-[#2C221E]">
+                  Preservação Consciente
+                </h3>
                 <p className="text-xs text-[#5F4E44] leading-relaxed">
-                  Higienizamos e realizamos manutenções pontuais sem interferir nas marcas do tempo que conferem autenticidade à peça.
+                  Higienizamos e realizamos manutenções pontuais sem interferir
+                  nas marcas do tempo que conferem autenticidade à peça.
                 </p>
               </div>
 
@@ -388,9 +478,12 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-full bg-[#C85A32]/10 flex items-center justify-center text-[#C85A32]">
                   <HeartHandshake className="w-5 h-5 text-[#2C221E]" />
                 </div>
-                <h3 className="font-vintage text-xl text-[#2C221E]">Novos Lares</h3>
+                <h3 className="font-vintage text-xl text-[#2C221E]">
+                  Novos Lares
+                </h3>
                 <p className="text-xs text-[#5F4E44] leading-relaxed">
-                  Embalamos e enviamos cada objeto com cuidado reforçado para que a peça chegue com segurança ao seu novo destino.
+                  Embalamos e enviamos cada objeto com cuidado reforçado para
+                  que a peça chegue com segurança ao seu novo destino.
                 </p>
               </div>
             </div>
@@ -460,7 +553,9 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center gap-3 text-center">
               <Truck className="w-5 h-5 text-[#C85A32] shrink-0" />
-              <span>Envio seguro com embalagem especial para peças frágeis.</span>
+              <span>
+                Envio seguro com embalagem especial para peças frágeis.
+              </span>
             </div>
             <div className="flex items-center justify-center gap-3 text-center">
               <Check className="w-5 h-5 text-[#C85A32] shrink-0" />
@@ -468,11 +563,12 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full mx-auto py-10 -mb-10 text-center text-xs bg-[#2C221E]/10 text-[#5F4E44] space-y-1 border-t border-[#2C221E]/10 pt-6">
-            <p className="font-vintage text-sm text-[#2C221E]">Retrôa • Loja de Antiguidades</p>
+            <p className="font-vintage text-sm text-[#2C221E]">
+              Retrôa • Loja de Antiguidades
+            </p>
             <p>© {new Date().getFullYear()} Todos os direitos reservados.</p>
           </div>
         </footer>
-
       </div>
     </>
   );

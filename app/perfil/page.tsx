@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Mail, Phone, MapPin, LogOut } from "lucide-react";
+import { ArrowLeft, Mail, Phone, MapPin, LogOut, Trash2, ShoppingBag } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function PerfilPage() {
     const [cliente, setCliente] = useState<any>(null);
     const [compras, setCompras] = useState<any[]>([]);
     const [carregando, setCarregando] = useState(true);
+    const [selecionados, setSelecionados] = useState<number[]>([]);
 
     useEffect(() => {
         const sessaoStr = localStorage.getItem("retroa_sessao");
@@ -40,6 +41,28 @@ export default function PerfilPage() {
         } finally {
             setCarregando(false);
         }
+    };
+
+    const alternarSelecao = (id: number) => {
+        setSelecionados((prev) =>
+            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+        );
+    };
+
+    const excluirSelecionados = async () => {
+        if (selecionados.length === 0) return;
+        if (!confirm(`Excluir ${selecionados.length} pedido(s) selecionado(s)?`)) return;
+
+        const { error } = await supabase.from("Pedidos").delete().in("id", selecionados);
+
+        if (error) {
+            console.error("Erro ao excluir pedidos:", error.message);
+            alert("Não foi possível excluir os pedidos selecionados. Tente novamente.");
+            return;
+        }
+
+        setCompras((prev) => prev.filter((p) => !selecionados.includes(p.id)));
+        setSelecionados([]);
     };
 
     const encerartSessao = () => {
@@ -123,16 +146,36 @@ export default function PerfilPage() {
 
                 {/* HISTÓRICO DE PEDIDOS */}
                 <div className="bg-[#EAE3D2]/40 p-6 rounded-lg border border-[#2C221E]/10 space-y-4 shadow-sm">
-                    <h2 className="text-sm font-semibold uppercase tracking-wider text-[#2C221E]">
-                        Histórico de Pedidos
-                    </h2>
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-sm font-semibold uppercase tracking-wider text-[#2C221E]">
+                            Histórico de Pedidos
+                        </h2>
+                        {selecionados.length > 0 && (
+                            <button
+                                onClick={excluirSelecionados}
+                                className="flex items-center gap-1 text-[11px] text-[#C85A32] hover:underline cursor-pointer transition-all"
+                            >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Excluir Selecionados ({selecionados.length})</span>
+                            </button>
+                        )}
+                    </div>
 
                     {carregando ? (
                         <p className="text-xs text-[#5F4E44]">Carregando pedidos...</p>
                     ) : compras.length === 0 ? (
-                        <p className="text-xs text-[#5F4E44]">
-                            Você ainda não realizou nenhuma compra.
-                        </p>
+                        <div className="text-center py-6 space-y-3">
+                            <p className="text-xs text-[#5F4E44]">
+                                Você ainda não realizou nenhuma compra.
+                            </p>
+                            <Link
+                                href="/produtos"
+                                className="inline-flex items-center gap-2 bg-[#2C221E] text-[#F4EFE6] text-xs font-semibold uppercase tracking-wider px-4 py-2.5 rounded hover:bg-[#C85A32] transition-colors"
+                            >
+                                <ShoppingBag className="w-4 h-4" />
+                                Ir para o Catálogo
+                            </Link>
+                        </div>
                     ) : (
                         <div className="space-y-3">
                             {compras.map((pedido: any, index: number) => {
@@ -145,9 +188,17 @@ export default function PerfilPage() {
                                         className="bg-[#F4EFE6] p-4 rounded border border-[#2C221E]/5 space-y-2 hover:border-[#C85A32]/30 transition-all text-xs"
                                     >
                                         <div className="flex justify-between items-center border-b border-[#2C221E]/10 pb-2">
-                                            <div>
-                                                <span className="font-bold">Pedido #{index + 1}</span>
-                                                <span className="text-[#5F4E44] ml-2">({pedido.data})</span>
+                                            <div className="flex items-center gap-3">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selecionados.includes(pedido.id)}
+                                                    onChange={() => alternarSelecao(pedido.id)}
+                                                    className="w-4 h-4 accent-[#C85A32] cursor-pointer"
+                                                />
+                                                <div>
+                                                    <span className="font-bold">Pedido #{index + 1}</span>
+                                                    <span className="text-[#5F4E44] ml-2">({pedido.data})</span>
+                                                </div>
                                             </div>
                                             <span className="font-semibold text-[#C85A32] text-sm">
                                                 R$ {Number(pedido.total).toFixed(2)}
