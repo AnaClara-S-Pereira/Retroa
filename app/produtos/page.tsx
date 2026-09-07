@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Search, ShoppingBag, X, User, ArrowLeft } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, ShoppingBag, X, User, ArrowLeft, ArrowUpDown, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "../lib/supabase";
@@ -15,6 +15,8 @@ type Produto = {
     imagem: string;
 };
 
+type OrdemPreco = "padrao" | "crescente" | "decrescente";
+
 const CATEGORIAS = [
     "Todas",
     "Cerâmica",
@@ -25,13 +27,23 @@ const CATEGORIAS = [
     "Casa",
 ];
 
+const OPCOES_ORDEM = [
+    { label: "Todos os preços", value: "padrao" },
+    { label: "Menor preço", value: "crescente" },
+    { label: "Maior preço", value: "decrescente" },
+];
+
 export default function ProdutosPage() {
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [busca, setBusca] = useState("");
     const [categoriaAtiva, setCategoriaAtiva] = useState("Todas");
+    const [ordemPreco, setOrdemPreco] = useState<OrdemPreco>("padrao");
+    const [menuPrecoAberto, setMenuPrecoAberto] = useState(false);
     const [usuario, setUsuario] = useState<any>(null);
     const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | null>(null);
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const [carrinho, setCarrinho] = useState<string[]>(() => {
         if (typeof window !== "undefined") {
@@ -62,16 +74,36 @@ export default function ProdutosPage() {
         localStorage.setItem("retroa_carrinho", JSON.stringify(carrinho));
     }, [carrinho]);
 
-    const produtosFiltrados = produtos.filter((p) => {
-        const atendeCategoria = categoriaAtiva === "Todas" || p.categoria === categoriaAtiva;
-        const atendeBusca = p.nome.toLowerCase().includes(busca.toLowerCase());
-        return atendeCategoria && atendeBusca;
-    });
+    // Fecha o dropdown de preços se o usuário clicar fora dele
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setMenuPrecoAberto(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    // Aplica o filtro de busca e categoria, e em seguida ordena o resultado por preço
+    const produtosFiltrados = produtos
+        .filter((p) => {
+            const atendeCategoria = categoriaAtiva === "Todas" || p.categoria === categoriaAtiva;
+            const atendeBusca = p.nome.toLowerCase().includes(busca.toLowerCase());
+            return atendeCategoria && atendeBusca;
+        })
+        .sort((a, b) => {
+            if (ordemPreco === "crescente") return a.preco - b.preco;
+            if (ordemPreco === "decrescente") return b.preco - a.preco;
+            return 0; // Mantém a ordem padrão (por ID)
+        });
 
     const adicionarAoCarrinho = (id: string) => setCarrinho((prev) => [...prev, id]);
 
     const formatarPreco = (valor: number) =>
         Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+    const opcaoPrecoSelecionada = OPCOES_ORDEM.find((o) => o.value === ordemPreco);
 
     return (
         <>
@@ -140,6 +172,7 @@ export default function ProdutosPage() {
                 </nav>
 
                 <main className="max-w-7xl mx-auto px-6 py-12">
+                    {/* CABEÇALHO DA PÁGINA */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#2C221E]/10 pb-4 mb-8 gap-4">
                         <div>
                             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#C85A32]">
@@ -153,19 +186,62 @@ export default function ProdutosPage() {
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
-                            {CATEGORIAS.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setCategoriaAtiva(cat)}
-                                    className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
-                                            ? "bg-[#2C221E] text-[#F4EFE6]"
-                                            : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+                        {/* CONTROLES: CATEGORIAS E FILTRO DE PREÇO */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
+                            {/* Filtro por Categoria */}
+                            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto">
+                                {CATEGORIAS.map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => setCategoriaAtiva(cat)}
+                                        className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${
+                                            categoriaAtiva === cat
+                                                ? "bg-[#2C221E] text-[#F4EFE6]"
+                                                : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
                                         }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Dropdown Customizado para Ordenar por Preço */}
+                            <div className="relative" ref={dropdownRef}>
+                                <button
+                                    type="button"
+                                    onClick={() => setMenuPrecoAberto(!menuPrecoAberto)}
+                                    className="bg-[#EADFD0] hover:bg-[#E2D4C1] text-xs font-semibold text-[#2C221E] pl-8 pr-7 py-1.5 rounded-full flex items-center gap-2 cursor-pointer transition-colors border border-transparent focus:border-[#C85A32] focus:outline-none shadow-sm"
                                 >
-                                    {cat}
+                                    <ArrowUpDown className="w-3.5 h-3.5 text-[#5F4E44] absolute left-3 pointer-events-none" />
+                                    <span>{opcaoPrecoSelecionada?.label || "Todos os preços"}</span>
+                                    <ChevronDown className={`w-3.5 h-3.5 text-[#5F4E44] absolute right-2.5 transition-transform duration-200 ${menuPrecoAberto ? "rotate-180" : ""}`} />
                                 </button>
-                            ))}
+
+                                {/* Lista de Opções Estilizada */}
+                                {menuPrecoAberto && (
+                                    <div className="absolute right-0 mt-2 w-44 bg-[#F4EFE6] border border-[#2C221E]/15 rounded-2xl shadow-xl py-1.5 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        {OPCOES_ORDEM.map((opcao) => {
+                                            const selecionado = ordemPreco === opcao.value;
+                                            return (
+                                                <button
+                                                    key={opcao.value}
+                                                    onClick={() => {
+                                                        setOrdemPreco(opcao.value as OrdemPreco);
+                                                        setMenuPrecoAberto(false);
+                                                    }}
+                                                    className={`w-full text-left px-4 py-2 text-xs font-semibold flex items-center justify-between transition-colors ${
+                                                        selecionado
+                                                            ? "bg-[#C85A32] text-white"
+                                                            : "text-[#2C221E] hover:bg-[#EADFD0]"
+                                                    }`}
+                                                >
+                                                    {opcao.label}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -178,6 +254,7 @@ export default function ProdutosPage() {
                                 onClick={() => {
                                     setBusca("");
                                     setCategoriaAtiva("Todas");
+                                    setOrdemPreco("padrao");
                                 }}
                                 className="mt-2 text-xs text-[#C85A32] underline underline-offset-4"
                             >

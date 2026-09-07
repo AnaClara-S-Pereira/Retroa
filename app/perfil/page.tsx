@@ -3,18 +3,58 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Mail, Phone, MapPin, LogOut, Trash2, ShoppingBag } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, Mail, LogOut, Trash2, ShoppingBag } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function PerfilPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const [cliente, setCliente] = useState<any>(null);
     const [compras, setCompras] = useState<any[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [selecionados, setSelecionados] = useState<number[]>([]);
 
     useEffect(() => {
-        const sessaoStr = localStorage.getItem("retroa_sessao");
+        carregarSessao();
+    }, [searchParams]);
 
+    const carregarSessao = async () => {
+        // 1. Verifica se veio dados pela URL (Retorno do OAuth/Callback Google)
+        const sessaoUrl = searchParams.get("sessao");
+        if (sessaoUrl) {
+            try {
+                const dadosCliente = JSON.parse(decodeURIComponent(sessaoUrl));
+                localStorage.setItem("retroa_sessao", JSON.stringify(dadosCliente));
+                setCliente(dadosCliente);
+                buscarPedidos(dadosCliente.email);
+                
+                // Limpa o parâmetro da URL sem recarregar a página
+                router.replace("/perfil");
+                return;
+            } catch (e) {
+                console.error("Erro ao processar sessão da URL:", e);
+            }
+        }
+
+        // 2. Verifica se já existe sessão ativa no Supabase Auth
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            const dadosUsuario = {
+                id: user.id,
+                nome: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0],
+                email: user.email,
+            };
+            localStorage.setItem("retroa_sessao", JSON.stringify(dadosUsuario));
+            setCliente(dadosUsuario);
+            buscarPedidos(user.email!);
+            return;
+        }
+
+        // 3. Verifica se existe sessão no localStorage (Login convencional ou OAuth salvo)
+        const sessaoStr = localStorage.getItem("retroa_sessao");
         if (sessaoStr) {
             const dadosCliente = JSON.parse(sessaoStr);
             setCliente(dadosCliente);
@@ -22,7 +62,7 @@ export default function PerfilPage() {
         } else {
             setCarregando(false);
         }
-    }, []);
+    };
 
     const buscarPedidos = async (emailCliente: string) => {
         try {
@@ -65,7 +105,8 @@ export default function PerfilPage() {
         setSelecionados([]);
     };
 
-    const encerartSessao = () => {
+    const encerrarSessao = async () => {
+        await supabase.auth.signOut();
         localStorage.removeItem("retroa_sessao");
         window.location.href = "/login";
     };
@@ -76,7 +117,7 @@ export default function PerfilPage() {
                 <h1 className="text-xl font-bold mb-4">Você precisa estar logado.</h1>
                 <Link
                     href="/login"
-                    className="bg-[#2C221E] text-white px-6 py-2 rounded text-xs uppercase tracking-wider hover:bg-[#C85A32] transition-colors"
+                    className="bg-[#2C221E] text-[#F4EFE6] px-6 py-2 rounded text-xs uppercase tracking-wider hover:bg-[#C85A32] transition-colors"
                 >
                     Ir para Login
                 </Link>
@@ -108,6 +149,7 @@ export default function PerfilPage() {
                     </Link>
                 </div>
             </nav>
+
             <main className="max-w-3xl mx-auto px-6 py-12 w-full flex-grow space-y-8">
                 {cliente && (
                     <div className="bg-[#EAE3D2]/40 p-6 rounded-lg border border-[#2C221E]/10 space-y-4 shadow-sm">
@@ -119,7 +161,7 @@ export default function PerfilPage() {
                                 <h1 className="text-xl font-bold">{cliente.nome}</h1>
                             </div>
                             <button
-                                onClick={encerartSessao}
+                                onClick={encerrarSessao}
                                 className="flex items-center gap-1 text-xs text-[#C85A32] hover:underline cursor-pointer transition-all"
                             >
                                 <LogOut className="w-4 h-4" />
@@ -127,19 +169,9 @@ export default function PerfilPage() {
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-[#5F4E44]">
-                            <div className="flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-[#C85A32]" />
-                                <span>{cliente.email}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Phone className="w-4 h-4 text-[#C85A32]" />
-                                <span>{cliente.telefone || "Não informado"}</span>
-                            </div>
-                            <div className="flex items-center gap-2 md:col-span-2">
-                                <MapPin className="w-4 h-4 text-[#C85A32]" />
-                                <span>{cliente.endereco || "Não informado"}</span>
-                            </div>
+                        <div className="flex items-center gap-2 text-xs text-[#5F4E44]">
+                            <Mail className="w-4 h-4 text-[#C85A32]" />
+                            <span>{cliente.email}</span>
                         </div>
                     </div>
                 )}
@@ -179,7 +211,6 @@ export default function PerfilPage() {
                     ) : (
                         <div className="space-y-3">
                             {compras.map((pedido: any, index: number) => {
-                                // Separa os itens pela vírgula para contar quantos são
                                 const listaItens = pedido.itens ? pedido.itens.split(", ") : [];
 
                                 return (
