@@ -16,7 +16,7 @@ export default function CadastroPage() {
         e.preventDefault();
         setCarregando(true);
 
-        const { data, error } = await supabase
+        const { data, error: authError } = await supabase
             .from("Clientes")
             .insert([
                 {
@@ -27,9 +27,9 @@ export default function CadastroPage() {
             ])
             .select();
 
-        if (error) {
-            console.error("Erro ao cadastrar:", error.message);
-            alert("Erro ao criar conta. Verifique os dados ou se o e-mail já existe.");
+        if (authError) {
+            console.error("Erro na autenticação:", authError.message);
+            alert("Erro ao criar conta: " + authError.message);
             setCarregando(false);
             return;
         }

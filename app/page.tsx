@@ -209,8 +209,18 @@ export default function Home() {
                   href="/perfil"
                   className="flex items-center gap-2 hover:text-[#2C221E] transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center font-bold text-[11px] uppercase">
-                    {usuario.nome ? usuario.nome.charAt(0) : "U"}
+                  <div className="relative w-7 h-7 rounded-full overflow-hidden bg-[#C85A32] text-white flex items-center justify-center font-bold text-[11px] uppercase shrink-0">
+                    {usuario.foto_url ? (
+                      <Image
+                        src={usuario.foto_url}
+                        alt={usuario.nome || "Perfil"}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    ) : (
+                      <span>{usuario.nome ? usuario.nome.charAt(0) : "U"}</span>
+                    )}
                   </div>
                   <span className="max-w-[100px] truncate">
                     {usuario.nome ? usuario.nome.split(" ")[0] : "Perfil"}
@@ -283,11 +293,10 @@ export default function Home() {
                 <button
                   key={cat}
                   onClick={() => setCategoriaAtiva(cat)}
-                  className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${
-                    categoriaAtiva === cat
-                      ? "bg-[#2C221E] text-[#F4EFE6]"
-                      : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
-                  }`}
+                  className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
+                    ? "bg-[#2C221E] text-[#F4EFE6]"
+                    : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+                    }`}
                 >
                   {cat}
                 </button>

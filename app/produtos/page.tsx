@@ -186,6 +186,7 @@ export default function ProdutosPage() {
                             </p>
                         </div>
 
+<<<<<<< HEAD
                         {/* CONTROLES: CATEGORIAS E FILTRO DE PREÇO */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
                             {/* Filtro por Categoria */}
@@ -198,6 +199,16 @@ export default function ProdutosPage() {
                                             categoriaAtiva === cat
                                                 ? "bg-[#2C221E] text-[#F4EFE6]"
                                                 : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+=======
+                        <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
+                            {CATEGORIAS.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setCategoriaAtiva(cat)}
+                                    className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
+                                        ? "bg-[#2C221E] text-[#F4EFE6]"
+                                        : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+>>>>>>> 7e4d5e94ec9752cce8ac3c644a63553232450f2f
                                         }`}
                                     >
                                         {cat}
