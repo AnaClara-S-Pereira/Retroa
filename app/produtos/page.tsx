@@ -159,8 +159,8 @@ export default function ProdutosPage() {
                                     key={cat}
                                     onClick={() => setCategoriaAtiva(cat)}
                                     className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
-                                            ? "bg-[#2C221E] text-[#F4EFE6]"
-                                            : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+                                        ? "bg-[#2C221E] text-[#F4EFE6]"
+                                        : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
                                         }`}
                                 >
                                     {cat}

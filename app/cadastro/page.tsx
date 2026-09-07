@@ -61,38 +61,47 @@ export default function CadastroPage() {
 
         setCarregando(true);
 
-        // Salvando na tabela Clientes do Supabase
-        // A senha é criptografada automaticamente por um trigger no banco (não fica visível)
-        const { data, error } = await supabase
-            .from("Clientes")
-            .insert([
-                {
-                    nome,
-                    email,
-                    telefone,
-                    endereco,
-                    senha,
-                    cpf,
-                    cep,
-                    data_nascimento: dataNascimento,
-                }
-            ])
-            .select();
+        // 1. Cria o usuário usando o Supabase Auth oficial
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+            email,
+            password: senha,
+        });
 
-        if (error) {
-            console.error("Erro ao cadastrar:", error.message);
-            alert("Erro ao criar conta. Verifique os dados ou se o e-mail já existe.");
+        if (authError) {
+            console.error("Erro na autenticação:", authError.message);
+            alert("Erro ao criar conta: " + authError.message);
             setCarregando(false);
             return;
         }
 
-        // Salva a sessão localmente para manter o usuário logado
-        // Obs: por segurança, evite guardar a senha aqui, mesmo que criptografada no banco
-        const clienteCriado = data ? data[0] : { nome, email, telefone, endereco, cpf, cep, data_nascimento: dataNascimento };
-        const { senha: _senhaOmitida, ...clienteSemSenha } = clienteCriado;
-        localStorage.setItem("retroa_sessao", JSON.stringify(clienteSemSenha));
+        // 2. Pega o ID único gerado pelo Auth para salvar os dados extras na tabela Clientes
+        const userId = authData.user?.id;
 
-        alert("Conta criada com sucesso no Supabase!");
+        if (userId) {
+            const { error: profileError } = await supabase
+                .from("Clientes")
+                .insert([
+                    {
+                        id: userId, // Vincula o perfil diretamente ao usuário autenticado
+                        nome,
+                        email,
+                        telefone,
+                        endereco,
+                        cpf,
+                        cep,
+                        data_nascimento: dataNascimento,
+                    }
+                ]);
+
+            if (profileError) {
+                console.error("Erro ao salvar perfil:", profileError.message);
+                alert("Erro ao salvar dados complementares do perfil.");
+                setCarregando(false);
+                return;
+            }
+        }
+
+        alert("Conta criada com sucesso!");
         window.location.href = "/login";
     };
 
