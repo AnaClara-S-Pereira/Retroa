@@ -3,9 +3,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "hfjbwtsmoperpsqnbcir.supabase.co",
-        pathname: "/storage/v1/object/public/**",
+        protocol: 'https',
+        hostname: 'hfjbwtsmoperpsqnbcir.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
       },
     ],
   },

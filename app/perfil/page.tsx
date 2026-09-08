@@ -419,11 +419,11 @@ export default function PerfilPage() {
                                 </div>
 
                                 {modalCartaoAberto && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs">
-                                        <div className="bg-[#EFE4D3] border border-[#2C221E]/20 p-6 w-full max-w-md shadow-lg rounded">
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#2C221E]/40">
+                                        <div className="bg-[#EFE4D3] border border-[#2C221E]/20 p-6 w-full max-w-md shadow-xl rounded">
                                             <div className="flex justify-between items-center pb-4 border-b border-[#2C221E]/10">
                                                 <h3 className="font-serif text-lg font-bold">Adicionar Novo Cartão</h3>
-                                                <button onClick={() => setModalCartaoAberto(false)} className="opacity-60 hover:opacity-15 cursor-pointer"><X className="h-5 w-5" /></button>
+                                                <button onClick={() => setModalCartaoAberto(false)} className="opacity-60 hover:opacity-100 cursor-pointer"><X className="h-5 w-5" /></button>
                                             </div>
                                             <form onSubmit={adicionarCartao} className="space-y-4 mt-4 text-sm">
                                                 <div>
@@ -445,8 +445,8 @@ export default function PerfilPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-end gap-3 pt-4">
-                                                    <button type="button" onClick={() => setModalCartaoAberto(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider border border-[#2C221E]/20 hover:border-[#8C3A29]">Cancelar</button>
-                                                    <button type="submit" className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-[#3B5249] text-[#EFE4D3] hover:bg-[#8C3A29]">Salvar Cartão</button>
+                                                    <button type="button" onClick={() => setModalCartaoAberto(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider border border-[#2C221E]/20 hover:border-[#8C3A29] cursor-pointer">Cancelar</button>
+                                                    <button type="submit" className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-[#3B5249] text-[#EFE4D3] hover:bg-[#8C3A29] cursor-pointer rounded">Salvar Cartão</button>
                                                 </div>
                                             </form>
                                         </div>

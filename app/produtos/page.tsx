@@ -15,7 +15,7 @@ type Produto = {
     imagem: string;
 };
 
-type OrdemPreco = "padrao" | "crescente" | "decrescente";
+type OrdemPreco = "padrao" | "relevancia" | "crescente" | "decrescente";
 
 const CATEGORIAS = [
     "Todas",
@@ -25,12 +25,152 @@ const CATEGORIAS = [
     "Música",
     "Decoração",
     "Casa",
+    "Eletrônicos",
 ];
 
 const OPCOES_ORDEM = [
-    { label: "Todos os preços", value: "padrao" },
+    { label: "Mais relevantes", value: "relevancia" },
     { label: "Menor preço", value: "crescente" },
     { label: "Maior preço", value: "decrescente" },
+];
+
+const PRODUTOS_INICIAIS_EXEMPLO = [
+    {
+        id: 1,
+        nome: "Vaso de cerâmica artesanal marajoara",
+        preco: 480.00,
+        descricao: "Peça única em cerâmica, com pintura clássica marajoara.",
+        categoria: "Cerâmica",
+        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/22030188-a52b-48b7-9ce9-085cd79c80dc?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=6f9948d3a3fa31ad9bf85dee9efa4f36e297755de4ee063660616d6917d0d25b5eccf9256c2c4d9f56c23897ec39f42050afd3d13e095cee8db47f47327dec96107b467dc145f947da26f7fdcd04cf27805f3f02c3b08f1b943bc11424408103c14e09269b71a8bd4ebce57a0367a770891ccd57eecea105c8afb832b3ab77c91c542a96b28e6a5c5aff1a6cd7a26ebb482e5a98a71d96823bc138e90f25ba495ffbf08ab65b564dcba356de2e4680dc53592b26c013293d91fe161f159f6076437b1dd03c72edeb3253677ad2e3843873a4445447092e36de6da9c7805d9bf28c73fbd4bfe86621741719b1d03d090fb31a002c9ab9ca4d9d9f7a793f579d92&X-Goog-SignedHeaders=host"
+    },
+    {
+        id: 2,
+        nome: "Máquina de escrever Remington vintage",
+        preco: 950.00,
+        descricao: "Máquina de escrever mecânica revisada e pronta para uso.",
+        categoria: "Escritório",
+        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/7b8f95cd-a7d4-4563-97c3-ee326abd8492?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=9ae9389d5e7a794e2c5f30196f5e07c9a5a9bdbcaef7ac4429bca7ca5f159f04b8b8fc4b37330e0407c25b69458bb3d72656c5f150c2a741d8463e9cf74f66926348db11696ad0bf48983b9aa89a8b07122b845939c22ce8e9c46577cb56e5cc5cd5b9fdbafdf20ed4e120b4c7a404093661eb761ab7b0f2e0ce0db62018b14284ff0941156b4b49bcdd73a02555e727cf52a5a43363e57d1b7484cd6bdf3facf8f0291f3493b7fd715eefadd720ed25123c601f04696eb401897106443097cba04d34c713f861310c800655cc4695f3195bd5157690c18d33ff734f781d3aaa6449a0cfe2187ab4de436b862d0e1de72051877825dd6086abf09eccf13a092b&X-Goog-SignedHeaders=host"
+    },
+    {
+        id: 3,
+        nome: "Abajur de mesa em latão e cúpula de vidro",
+        preco: 720.00,
+        descricao: "Abajur funcionando, base em latão envelhecido.",
+        categoria: "Iluminação",
+        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/55132758-4bc6-49bd-ab9a-bf88b27651ba?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=ce7b2fd2dc8ab3f0a926b5067a15d09e180e63d8f17dfc61e0bf00698fa193374306e2bf66e7761a316635fd2b0c453f9acca7adfa8f7129af3f6bfe5dc7dcb06cc840204de3d40ae9111febff1d4b728eb3194d1491ecb9b28ba42ae7ce455ca6fc7419f6feac27acdee7b18305a908be92887c90ef9164df26920018a003744aef15676ecaaf27faf87d6ce59842aaaa830c4588bb40a7891fc186d3a7ccea1e6217cad075c30776921eec21d2220bbe37b3f0141d8ea4040ac82acd448da57d5965bf8fa13b49db85aa31ce90b50ed0c5d41a8b2b9c050b004b3392a0f525cc7774238a5cb14ddf45f9b67f3fc23fbd8b25cd20780e0fc256938840538605&X-Goog-SignedHeaders=host"
+    },
+    {
+        id: 4,
+        nome: "Rádio de mesa em caixa de madeira nobre",
+        preco: 1280.00,
+        descricao: "Relíquia rara, rádio de mesa com caixa de madeira.",
+        categoria: "Música",
+        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/9a1ac950-9baa-4879-be13-7ae3343f5439?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=aeeb6432755a4978d061d9248c180c2cfac4cf21d46c040fada04d798382afcdd978756736cced2522d03cc4b5773d99c54cb086aafbb5aa9d912b8c67693c054a179f79d90de0b9cbb947bb200003804f8e1fe4e9c3a023f440b4298040872d23391dceca5f9c0f8165d05345d03b5960e7e737d468eb12793310858a84d7d2f958a2a8550ebf4d31805748de79daf0325a8c7d2a697b4d23a79ceecf6b286c848af98ddeacec74d29f181ffa4fff4694a23f7d6a0d29a9c9ca8631ffec3360bbb12a35bfaae46cc6e1dc6d3c139ace4ffdf7281a9613c9551d6b9d84ffc8dd5380ec345932c40bb4b8f615e72f4f019fc1dffa03af7f4a26699c8225fc02e6&X-Goog-SignedHeaders=host"
+    },
+    {
+        id: 5,
+        nome: "Espelho de parede com moldura dourada",
+        preco: 1150.00,
+        descricao: "Peça rara, espelho com moldura entalhada e acabamento dourado.",
+        categoria: "Decoração",
+        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/02750807-c7c6-4d76-ab68-137e2fd7309e?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=a34a894d0177959b9f9325b57e774522912de9d81e938e97ade8d508cfb9600f343fff9db3cda887ee30674118b616e2e49348977224db2a655990e42c2e8f32ef88cae98873980e02147040d421e809f60880286f3e09223c054783295aa99aa5eb10ed608123870f6e93c78e3c2c84e0da32b465a0a324d56527f80d1c3113ee6be044c2867a83d52747304bae84defcbeeb4497d22a995480c7fb4f56f3fd6b8a7d0106c939d4af1b2d854db5f9f46b7b49ff040997bba4bb63e7e0403325bb0fb6e8e12efcdc376ae7832596c7431b1852694eb94ba3db6fe17db57034c29db99fe020178ccbec42e02b81700f9ac04c5ab316f93af8daf1c751cf59cb6d&X-Goog-SignedHeaders=host"
+    },
+    {
+        id: 6,
+        nome: "Poltrona em madeira nobre e palhinha indiana",
+        preco: 2100.00,
+        descricao: "Achado raro, poltrona em madeira maciça com assento em palhinha.",
+        categoria: "Casa",
+        imagem: "https://i.pinimg.com/1200x/c4/3d/d0/c43dd0fa3afa589bd99eab9a15cb0f56.jpg"
+    },
+    {
+        id: 7,
+        nome: "Telefone BlackBerry rosa",
+        preco: 300.00,
+        descricao: "Telefone antigo Retrô rosa.",
+        categoria: "Eletrônicos",
+        imagem: "https://i.pinimg.com/736x/c2/17/7b/c2177bc954bf4859da10d48f7259021e.jpg"
+    },
+    {
+        id: 8,
+        nome: "Nokia",
+        preco: 400.00,
+        descricao: "Telefone Nokia antigo Retrô.",
+        categoria: "Eletrônicos",
+        imagem: "https://i.pinimg.com/736x/63/d8/43/63d8436cd934bb616f7fb3950efd40d9.jpg"
+    },
+    {
+        id: 9,
+        nome: "DVD Video Magnavox",
+        preco: 500.00,
+        descricao: "DVD antigo cinza magnavox",
+        categoria: "Música",
+        imagem: "https://i.pinimg.com/736x/82/72/07/82720703a5df6499878129841416e4be.jpg"
+    },
+    {
+        id: 10,
+        nome: "Telefone de Disco Retrô Vermelho",
+        preco: 250.00,
+        descricao: "Clássico telefone fixo analógico na cor vermelha vibrante, com sistema de discagem circular em disco e cabo espiralado autêntico.",
+        categoria: "Casa",
+        imagem: "https://i.pinimg.com/1200x/e9/6d/2b/e96d2bbc8c7454dd49ad2afb9e89de3f.jpg"
+    },
+    {
+        id: 11,
+        nome: "Relógio de Bolso Dourado Antigo",
+        preco: 450.00,
+        descricao: "Elegante relógio de bolso clássico com acabamento dourado detalhado, visor com numeração romana gravada e tampa protetora articulada.",
+        categoria: "Escritório",
+        imagem: "https://i.pinimg.com/736x/84/8a/08/848a0823c5471a872d6aac90a1206981.jpg"
+    },
+    {
+        id: 12,
+        nome: "Gramofone Antigo com Corneta Metálica",
+        preco: 680.00,
+        descricao: "Gramofone clássico estilo vintage com base de madeira trabalhada, corneta acústica ampla em metal envelhecido e disco de vinil decorativo.",
+        categoria: "Música",
+        imagem: "https://i.pinimg.com/736x/1b/91/53/1b9153028281e764dd0454a1a59fd10c.jpg"
+    },
+    {
+        id: 13,
+        nome: "Walkman Toca-fitas Estéreo Vermelho",
+        preco: 340.00,
+        descricao: "Reprodutor de fita cassete portátil estilo vintage na cor vermelha, acompanhado de fones de ouvido clássicos com arco de metal.",
+        categoria: "Música",
+        imagem: "https://i.pinimg.com/736x/1b/91/53/1b9153028281e764dd0454a1a59fd10c.jpg"
+    },
+    {
+        id: 14,
+        nome: "Celular Tijolão Vintage",
+        preco: 390.00,
+        descricao: "Celular retrô clássico em formato tijolo, inspirado nos primeiros telefones celulares móveis com antena longa e teclado físico numérico.",
+        categoria: "Eletrônicos",
+        imagem: "https://i.pinimg.com/736x/c2/17/7b/c2177bc954bf4859da10d48f7259021e.jpg"
+    },
+    {
+        id: 15,
+        nome: "Câmera Instantânea Polaroid OneStep",
+        preco: 380.00,
+        descricao: "Clássica câmera instantânea Polaroid Land Camera OneStep com o icônico design vintage e faixa colorida frontal.",
+        categoria: "Decoração",
+        imagem: "https://i.pinimg.com/736x/95/23/b7/9523b7d80b45564c9e78f716b365841b.jpg"
+    },
+    {
+        id: 16,
+        nome: "Mini System Aiwa XG-5909 Vintage",
+        preco: 1280.00,
+        descricao: "Sistema de som compacto clássico da Aiwa com display digital iluminado, decks duplos para fitas cassete, leitor de CD e controles frontais completos.",
+        categoria: "Música",
+        imagem: "https://i.pinimg.com/736x/85/60/53/8560535e3d9d333dac735bc1305ae627.jpg"
+    },
+    {
+        id: 17,
+        nome: "Boombox Rádio CD Player Sanyo Rosa Y2K",
+        preco: 490.00,
+        descricao: "Aparelho de som portátil estilo boombox da Sanyo na cor rosa, decorado com adesivos estéticos e sistema BassXpander para reprodução de rádio AM/FM e CD.",
+        categoria: "Música",
+        imagem: "https://i.pinimg.com/736x/45/08/c3/4508c3aa6832b36433d7f7263cb9002e.jpg"
+    }
 ];
 
 export default function ProdutosPage() {
@@ -38,22 +178,23 @@ export default function ProdutosPage() {
     const [carregando, setCarregando] = useState(true);
     const [busca, setBusca] = useState("");
     const [categoriaAtiva, setCategoriaAtiva] = useState("Todas");
-    const [ordemPreco, setOrdemPreco] = useState<OrdemPreco>("padrao");
+    const [ordemPreco, setOrdemPreco] = useState<OrdemPreco>("relevancia");
     const [menuPrecoAberto, setMenuPrecoAberto] = useState(false);
     const [usuario, setUsuario] = useState<any>(null);
     const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | null>(null);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const [carrinho, setCarrinho] = useState<string[]>(() => {
-        if (typeof window !== "undefined") {
-            const salvo = localStorage.getItem("retroa_carrinho");
-            return salvo ? JSON.parse(salvo) : [];
-        }
-        return [];
-    });
+    const [carrinho, setCarrinho] = useState<string[]>([]);
+    const [montado, setMontado] = useState(false);
 
     useEffect(() => {
+        setMontado(true);
+        if (typeof window !== "undefined") {
+            const salvo = localStorage.getItem("retroa_carrinho");
+            if (salvo) setCarrinho(JSON.parse(salvo));
+        }
+
         const sessaoAtiva = localStorage.getItem("retroa_sessao");
         if (sessaoAtiva) setUsuario(JSON.parse(sessaoAtiva));
 
@@ -63,7 +204,11 @@ export default function ProdutosPage() {
                 .select("*")
                 .order("id", { ascending: false });
 
-            if (!error && data) setProdutos(data as Produto[]);
+            if (!error && data && data.length > 0) {
+                setProdutos(data as Produto[]);
+            } else {
+                setProdutos(PRODUTOS_INICIAIS_EXEMPLO);
+            }
             setCarregando(false);
         };
 
@@ -71,10 +216,11 @@ export default function ProdutosPage() {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("retroa_carrinho", JSON.stringify(carrinho));
-    }, [carrinho]);
+        if (montado) {
+            localStorage.setItem("retroa_carrinho", JSON.stringify(carrinho));
+        }
+    }, [carrinho, montado]);
 
-    // Fecha o dropdown de preços se o usuário clicar fora dele
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -85,7 +231,6 @@ export default function ProdutosPage() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // Aplica o filtro de busca e categoria, e em seguida ordena o resultado por preço
     const produtosFiltrados = produtos
         .filter((p) => {
             const atendeCategoria = categoriaAtiva === "Todas" || p.categoria === categoriaAtiva;
@@ -95,7 +240,8 @@ export default function ProdutosPage() {
         .sort((a, b) => {
             if (ordemPreco === "crescente") return a.preco - b.preco;
             if (ordemPreco === "decrescente") return b.preco - a.preco;
-            return 0; // Mantém a ordem padrão (por ID)
+            if (ordemPreco === "relevancia") return b.id - a.id;
+            return 0;
         });
 
     const adicionarAoCarrinho = (id: string) => setCarrinho((prev) => [...prev, id]);
@@ -108,9 +254,9 @@ export default function ProdutosPage() {
     return (
         <>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
-        .font-vintage { font-family: 'Playfair Display', Georgia, serif; }
-      `}</style>
+                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
+                .font-vintage { font-family: 'Playfair Display', Georgia, serif; }
+            `}</style>
 
             <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased">
                 {/* NAVBAR */}
@@ -151,7 +297,7 @@ export default function ProdutosPage() {
                                 <ShoppingBag className="w-4 h-4" />
                                 <span>Sacola</span>
                                 <span className="bg-[#C85A32] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                                    {carrinho.length}
+                                    {montado ? carrinho.length : 0}
                                 </span>
                             </Link>
 
@@ -186,20 +332,6 @@ export default function ProdutosPage() {
                             </p>
                         </div>
 
-<<<<<<< HEAD
-                        {/* CONTROLES: CATEGORIAS E FILTRO DE PREÇO */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
-                            {/* Filtro por Categoria */}
-                            <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto">
-                                {CATEGORIAS.map((cat) => (
-                                    <button
-                                        key={cat}
-                                        onClick={() => setCategoriaAtiva(cat)}
-                                        className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${
-                                            categoriaAtiva === cat
-                                                ? "bg-[#2C221E] text-[#F4EFE6]"
-                                                : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
-=======
                         <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
                             {CATEGORIAS.map((cat) => (
                                 <button
@@ -208,54 +340,51 @@ export default function ProdutosPage() {
                                     className={`text-xs cursor-pointer font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${categoriaAtiva === cat
                                         ? "bg-[#2C221E] text-[#F4EFE6]"
                                         : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
->>>>>>> 7e4d5e94ec9752cce8ac3c644a63553232450f2f
                                         }`}
-                                    >
-                                        {cat}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Dropdown Customizado para Ordenar por Preço */}
-                            <div className="relative" ref={dropdownRef}>
-                                <button
-                                    type="button"
-                                    onClick={() => setMenuPrecoAberto(!menuPrecoAberto)}
-                                    className="bg-[#EADFD0] hover:bg-[#E2D4C1] text-xs font-semibold text-[#2C221E] pl-8 pr-7 py-1.5 rounded-full flex items-center gap-2 cursor-pointer transition-colors border border-transparent focus:border-[#C85A32] focus:outline-none shadow-sm"
                                 >
-                                    <ArrowUpDown className="w-3.5 h-3.5 text-[#5F4E44] absolute left-3 pointer-events-none" />
-                                    <span>{opcaoPrecoSelecionada?.label || "Todos os preços"}</span>
-                                    <ChevronDown className={`w-3.5 h-3.5 text-[#5F4E44] absolute right-2.5 transition-transform duration-200 ${menuPrecoAberto ? "rotate-180" : ""}`} />
+                                    {cat}
                                 </button>
+                            ))}
+                        </div>
 
-                                {/* Lista de Opções Estilizada */}
-                                {menuPrecoAberto && (
-                                    <div className="absolute right-0 mt-2 w-44 bg-[#F4EFE6] border border-[#2C221E]/15 rounded-2xl shadow-xl py-1.5 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                        {OPCOES_ORDEM.map((opcao) => {
-                                            const selecionado = ordemPreco === opcao.value;
-                                            return (
-                                                <button
-                                                    key={opcao.value}
-                                                    onClick={() => {
-                                                        setOrdemPreco(opcao.value as OrdemPreco);
-                                                        setMenuPrecoAberto(false);
-                                                    }}
-                                                    className={`w-full text-left px-4 py-2 text-xs font-semibold flex items-center justify-between transition-colors ${
-                                                        selecionado
-                                                            ? "bg-[#C85A32] text-white"
-                                                            : "text-[#2C221E] hover:bg-[#EADFD0]"
+                        {/* Dropdown Customizado para Ordenar */}
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                type="button"
+                                onClick={() => setMenuPrecoAberto(!menuPrecoAberto)}
+                                className="bg-[#EADFD0] hover:bg-[#E2D4C1] text-xs font-semibold text-[#2C221E] pl-8 pr-7 py-1.5 rounded-full flex items-center gap-2 cursor-pointer transition-colors border border-transparent focus:border-[#C85A32] focus:outline-none shadow-sm"
+                            >
+                                <ArrowUpDown className="w-3.5 h-3.5 text-[#5F4E44] absolute left-3 pointer-events-none" />
+                                <span>{opcaoPrecoSelecionada?.label || "Mais relevantes"}</span>
+                                <ChevronDown className={`w-3.5 h-3.5 text-[#5F4E44] absolute right-2.5 transition-transform duration-200 ${menuPrecoAberto ? "rotate-180" : ""}`} />
+                            </button>
+
+                            {menuPrecoAberto && (
+                                <div className="absolute right-0 mt-2 w-44 bg-[#F4EFE6] border border-[#2C221E]/15 rounded-2xl shadow-xl py-1.5 z-50 overflow-hidden">
+                                    {OPCOES_ORDEM.map((opcao) => {
+                                        const selecionado = ordemPreco === opcao.value;
+                                        return (
+                                            <button
+                                                key={opcao.value}
+                                                onClick={() => {
+                                                    setOrdemPreco(opcao.value as OrdemPreco);
+                                                    setMenuPrecoAberto(false);
+                                                }}
+                                                className={`w-full text-left px-4 py-2 text-xs font-semibold flex items-center justify-between transition-colors ${selecionado
+                                                    ? "bg-[#C85A32] text-white"
+                                                    : "text-[#2C221E] hover:bg-[#EADFD0]"
                                                     }`}
-                                                >
-                                                    {opcao.label}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                )}
-                            </div>
+                                            >
+                                                {opcao.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
                     </div>
 
+                    {/* LISTA DE PRODUTOS */}
                     {carregando ? (
                         <div className="text-center py-16 text-[#5F4E44] text-sm">Carregando produtos...</div>
                     ) : produtosFiltrados.length === 0 ? (
@@ -265,9 +394,9 @@ export default function ProdutosPage() {
                                 onClick={() => {
                                     setBusca("");
                                     setCategoriaAtiva("Todas");
-                                    setOrdemPreco("padrao");
+                                    setOrdemPreco("relevancia");
                                 }}
-                                className="mt-2 text-xs text-[#C85A32] underline underline-offset-4"
+                                className="mt-2 text-xs text-[#C85A32] underline underline-offset-4 cursor-pointer"
                             >
                                 Limpar filtros
                             </button>
@@ -327,7 +456,7 @@ export default function ProdutosPage() {
                         <div className="bg-[#F4EFE6] rounded-lg max-w-2xl w-full p-6 relative shadow-2xl border border-[#2C221E]/20">
                             <button
                                 onClick={() => setProdutoSelecionado(null)}
-                                className="absolute top-4 right-4 text-[#5F4E44] hover:text-[#2C221E]"
+                                className="absolute top-4 right-4 text-[#5F4E44] hover:text-[#2C221E] cursor-pointer"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -363,7 +492,7 @@ export default function ProdutosPage() {
                                             adicionarAoCarrinho(String(produtoSelecionado.id));
                                             setProdutoSelecionado(null);
                                         }}
-                                        className="w-full bg-[#C85A32] text-white text-xs font-semibold uppercase tracking-wider py-3 rounded hover:bg-[#B04C27] transition-colors flex items-center justify-center gap-2"
+                                        className="w-full bg-[#C85A32] cursor-pointer text-white text-xs font-semibold uppercase tracking-wider py-3 rounded hover:bg-[#B04C27] transition-colors flex items-center justify-center gap-2"
                                     >
                                         <ShoppingBag className="w-4 h-4" />
                                         Garantir esta peça

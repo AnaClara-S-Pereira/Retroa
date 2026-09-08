@@ -312,7 +312,7 @@ export default function CarrinhoPage() {
                 </div>
 
                 {itensCarrinho.length === 0 ? (
-                    <div className="bg-[#EAE3D2]/50 backdrop-blur-md rounded-3xl p-16 text-center space-y-4 shadow-lg border border-[#2C221E]/10 max-w-xl mx-auto">
+                    <div className="bg-[#EAE3D2]/50 backdrop-blur-md  p-16 text-center space-y-4 shadow-lg border border-[#2C221E]/10 max-w-xl mx-auto">
                         <p className="text-sm text-[#5F4E44] font-medium">Sua sacola está vazia no momento.</p>
                         <Link href="/" className="inline-block bg-[#C85A32] text-white px-8 py-3.5 rounded-xl text-xs uppercase tracking-wider font-semibold hover:bg-[#B04C27] transition-colors shadow-md">
                             Explorar Catálogo de Antiguidades
@@ -322,9 +322,9 @@ export default function CarrinhoPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         <div className="lg:col-span-7 space-y-4">
                             {itensCarrinho.map((item) => (
-                                <div key={item.id} className="bg-[#EAE3D2]/50 backdrop-blur-md p-5 rounded-2xl shadow-sm border border-[#2C221E]/10 flex items-center justify-between gap-4 transition-all hover:shadow-md">
+                                <div key={item.id} className="bg-[#EAE3D2]/50 backdrop-blur-md p-5 shadow-sm border border-[#2C221E]/10 flex items-center justify-between gap-4 transition-all hover:shadow-md">
                                     <div className="flex items-center gap-4">
-                                        <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#EADFD0] shrink-0 border border-[#2C221E]/10">
+                                        <div className="relative w-20 h-20 overflow-hidden bg-[#EADFD0] shrink-0 border border-[#2C221E]/10">
                                             <Image src={item.imagem} alt={item.nome} fill className="object-cover" />
                                         </div>
                                         <div className="space-y-1">
@@ -345,12 +345,12 @@ export default function CarrinhoPage() {
                             ))}
                         </div>
 
-                        <div className="lg:col-span-5 bg-[#EAE3D2]/60 backdrop-blur-xl p-8 rounded-3xl shadow-xl border border-[#2C221E]/10 space-y-6 sticky top-24">
+                        <div className="lg:col-span-5 bg-[#EAE3D2]/60 backdrop-blur-xl p-8  shadow-xl border border-[#2C221E]/10 space-y-6 sticky top-24">
                             <h2 className="font-vintage text-xl font-bold tracking-tight text-[#2C221E] border-b border-[#2C221E]/10 pb-4">Resumo do Pedido</h2>
 
                             <div className="space-y-4">
                                 {/* Bloco de Consulta de Frete via API (/api/checkout/shipping) */}
-                                <div className="space-y-3 bg-[#EADFD0]/70 p-4 rounded-2xl border border-[#2C221E]/10">
+                                <div className="space-y-3 bg-[#EADFD0]/70 p-4 border border-[#2C221E]/10">
                                     <label className="text-[11px] font-bold uppercase tracking-wider text-[#5F4E44] block">Calcular Frete</label>
                                     <div className="flex gap-2">
                                         <input
@@ -359,20 +359,20 @@ export default function CarrinhoPage() {
                                             maxLength={9}
                                             value={cepInput}
                                             onChange={(e) => setCepInput(e.target.value)}
-                                            className="w-full bg-[#F4EFE6] text-xs text-[#2C221E] placeholder-[#8C7A70] px-3.5 py-2.5 rounded-xl border border-[#2C221E]/10 focus:outline-none focus:ring-2 focus:ring-[#C85A32] font-mono transition-all"
+                                            className="w-full bg-[#F4EFE6] text-xs text-[#2C221E] placeholder-[#8C7A70] px-3.5 py-2.5 border border-[#2C221E]/10 focus:outline-none focus:ring-2 focus:ring-[#C85A32] font-mono transition-all"
                                         />
                                         <button
                                             type="button"
                                             onClick={calcularFreteApi}
                                             disabled={carregandoFrete}
-                                            className="bg-[#2C221E] text-white text-xs px-4 py-2.5 rounded-xl font-semibold hover:bg-[#C85A32] transition-colors shrink-0 cursor-pointer shadow-sm"
+                                            className="bg-[#2C221E] text-white text-xs px-4 py-2.5 font-semibold hover:bg-[#C85A32] transition-colors shrink-0 cursor-pointer shadow-sm"
                                         >
                                             {carregandoFrete ? "..." : "Consultar"}
                                         </button>
                                     </div>
 
                                     {dadosEndereco && (
-                                        <div className="text-[11px] text-[#2C221E] bg-[#C85A32]/10 p-2.5 rounded-xl border border-[#C85A32]/20 space-y-0.5">
+                                        <div className="text-[11px] text-[#2C221E] bg-[#C85A32]/10 p-2.5 border border-[#C85A32]/20 space-y-0.5">
                                             <p className="font-semibold text-[#C85A32]">Endereço Encontrado:</p>
                                             <p>{dadosEndereco.logradouro}, {dadosEndereco.bairro} - {dadosEndereco.cidade}/{dadosEndereco.uf}</p>
                                         </div>
@@ -382,7 +382,7 @@ export default function CarrinhoPage() {
                                         <div className="space-y-2 pt-1">
                                             <p className="text-[10px] font-bold uppercase tracking-wider text-[#5F4E44]">Selecione o Frete:</p>
                                             {opcoesFrete.map((opcao) => (
-                                                <label key={opcao.id} className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer text-xs transition-all ${freteSelecionado?.id === opcao.id ? 'border-[#C85A32] bg-[#C85A32]/10 text-[#2C221E] font-medium' : 'border-[#2C221E]/10 bg-[#F4EFE6] text-[#5F4E44]'}`}>
+                                                <label key={opcao.id} className={`flex items-center justify-between p-2.5 border cursor-pointer text-xs transition-all ${freteSelecionado?.id === opcao.id ? 'border-[#C85A32] bg-[#C85A32]/10 text-[#2C221E] font-medium' : 'border-[#2C221E]/10 bg-[#F4EFE6] text-[#5F4E44]'}`}>
                                                     <div className="flex items-center gap-2">
                                                         <input
                                                             type="radio"
@@ -407,7 +407,7 @@ export default function CarrinhoPage() {
                                         placeholder="000.000.000-00"
                                         value={cpfNota}
                                         onChange={(e) => setCpfNota(e.target.value)}
-                                        className="w-full bg-[#EADFD0]/70 text-xs text-[#2C221E] placeholder-[#8C7A70] px-4 py-3 rounded-xl border border-[#2C221E]/10 focus:outline-none focus:ring-2 focus:ring-[#C85A32] font-mono transition-all"
+                                        className="w-full bg-[#EADFD0]/70 text-xs text-[#2C221E] placeholder-[#8C7A70] px-4 py-3 border border-[#2C221E]/10 focus:outline-none focus:ring-2 focus:ring-[#C85A32] font-mono transition-all"
                                     />
                                 </div>
 
@@ -417,28 +417,28 @@ export default function CarrinhoPage() {
                                         <button
                                             type="button"
                                             onClick={() => setMetodoPagamento("pix")}
-                                            className={`py-3 px-3 text-xs font-semibold rounded-xl border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'pix' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
+                                            className={`py-3 px-3 text-xs font-semibold border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'pix' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
                                         >
                                             <QrCode className="w-4 h-4" /> Pix
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setMetodoPagamento("credito")}
-                                            className={`py-3 px-3 text-xs font-semibold rounded-xl border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'credito' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
+                                            className={`py-3 px-3 text-xs font-semibold border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'credito' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
                                         >
                                             <CreditCard className="w-4 h-4" /> Crédito
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setMetodoPagamento("debito")}
-                                            className={`py-3 px-3 text-xs font-semibold rounded-xl border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'debito' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
+                                            className={`py-3 px-3 text-xs font-semibold border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'debito' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
                                         >
                                             <CreditCard className="w-4 h-4" /> Débito
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setMetodoPagamento("boleto")}
-                                            className={`py-3 px-3 text-xs font-semibold rounded-xl border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'boleto' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
+                                            className={`py-3 px-3 text-xs font-semibold border flex items-center justify-center gap-2 cursor-pointer transition-all ${metodoPagamento === 'boleto' ? 'bg-[#C85A32] text-white border-[#C85A32] shadow-sm' : 'bg-[#EADFD0]/70 text-[#5F4E44] border-[#2C221E]/10 hover:bg-[#EADFD0]'}`}
                                         >
                                             <Barcode className="w-4 h-4" /> Boleto
                                         </button>
@@ -464,7 +464,7 @@ export default function CarrinhoPage() {
                             <button
                                 onClick={finalizarcompra}
                                 disabled={carregando}
-                                className="w-full bg-[#C85A32] text-white text-xs font-bold uppercase tracking-wider py-4 rounded-xl hover:bg-[#B04C27] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#C85A32]/20 flex items-center justify-center gap-2"
+                                className="w-full bg-[#C85A32] text-white text-xs font-bold uppercase tracking-wider py-4 hover:bg-[#B04C27] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#C85A32]/20 flex items-center justify-center gap-2"
                             >
                                 {carregando ? "Processando..." : "Finalizar Compra com Segurança"}
                             </button>
