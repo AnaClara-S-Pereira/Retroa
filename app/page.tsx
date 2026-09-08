@@ -192,6 +192,12 @@ export default function Home() {
               >
                 Sobre
               </a>
+              <a
+                href="#como-trabalhamos"
+                className="hover:text-[#2C221E] transition-colors"
+              >
+                Como Trabalhamos
+              </a>
 
               <Link
                 href="/carrinho"
@@ -433,7 +439,7 @@ export default function Home() {
         </section>
 
         {/* SECAO COMO TRABALHAMOS */}
-        <section className="relative overflow-hidden py-20">
+        <section id="como-trabalhamos" className="relative overflow-hidden py-20 scroll-mt-35">
           <div className="absolute inset-0 z-0">
             <Image
               src="/fundoverde.png"
@@ -571,8 +577,8 @@ export default function Home() {
               <span>Atendimento personalizado para colecionadores.</span>
             </div>
           </div>
-          <div className="w-full mx-auto py-10 -mb-10 text-center text-xs bg-[#2C221E]/10 text-[#5F4E44] space-y-1 border-t border-[#2C221E]/10 pt-6">
-            <p className="font-vintage text-sm text-[#2C221E]">
+          <div className="w-full mx-auto py-10 -mb-10 text-center text-xs bg-[#3a4f35] text-zinc-200 space-y-1 border-t border-[#2C221E]/10 pt-6">
+            <p className="font-vintage text-sm">
               Retrôa • Loja de Antiguidades
             </p>
             <p>© {new Date().getFullYear()} Todos os direitos reservados.</p>
