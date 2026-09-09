@@ -3,12 +3,13 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { transportador } from "../../../lib/mailer";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(request: Request) {
+  // Inicializamos o Supabase aqui dentro da função
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   const { email, novaSenha } = await request.json();
   if (!email || !novaSenha) {
     return NextResponse.json({ erro: "E-mail e nova senha são obrigatórios." }, { status: 400 });
