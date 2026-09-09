@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Trash2, CheckCircle, QrCode, CreditCard, Barcode, FileText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Trash2, CheckCircle, QrCode, CreditCard, Barcode, FileText } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 const PRODUTOS_MOCK = [
@@ -33,7 +33,6 @@ export default function CarrinhoPage() {
     const [dadosUltimoPedido, setDadosUltimoPedido] = useState<any>(null);
     const [copiadoPix, setCopiadoPix] = useState(false);
 
-    // Estados para o Frete consumindo a API interna (/api/checkout/shipping)
     const [cepInput, setCepInput] = useState("");
     const [dadosEndereco, setDadosEndereco] = useState<any>(null);
     const [opcoesFrete, setOpcoesFrete] = useState<any[]>([]);
@@ -54,7 +53,6 @@ export default function CarrinhoPage() {
     const valorFrete = freteSelecionado ? freteSelecionado.preco : 0;
     const total = subtotal + valorFrete;
 
-    // Função que chama a API interna do projeto (/api/checkout/shipping)
     const calcularFreteApi = async () => {
         if (!cepInput || cepInput.replace(/\D/g, "").length !== 8) {
             alert("Digite um CEP válido com 8 dígitos.");
@@ -82,7 +80,7 @@ export default function CarrinhoPage() {
 
             setDadosEndereco(resultado.endereco);
             setOpcoesFrete(resultado.opcoesFrete);
-            setFreteSelecionado(resultado.opcoesFrete[0]); // Seleciona o primeiro frete por padrão
+            setFreteSelecionado(resultado.opcoesFrete[0]);
         } catch (erro) {
             console.error("Erro na requisição:", erro);
             alert("Erro de conexão com o servidor de frete.");
@@ -91,7 +89,7 @@ export default function CarrinhoPage() {
         }
     };
 
-    const finalizarcompra = async () => {
+    const finalizarCompra = async () => {
         const sessaoStr = localStorage.getItem("retroa_sessao");
 
         if (!sessaoStr) {
@@ -288,7 +286,6 @@ export default function CarrinhoPage() {
 
     return (
         <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased flex flex-col justify-between relative overflow-hidden">
-            {/* Bolas/círculos elegantes no fundo para manter a estética vela/retrô */}
             <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#C85A32]/10 blur-3xl pointer-events-none" />
             <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full bg-[#E3B04B]/10 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-32 left-1/4 w-80 h-80 rounded-full bg-[#C85A32]/10 blur-3xl pointer-events-none" />
@@ -312,7 +309,7 @@ export default function CarrinhoPage() {
                 </div>
 
                 {itensCarrinho.length === 0 ? (
-                    <div className="bg-[#EAE3D2]/50 backdrop-blur-md  p-16 text-center space-y-4 shadow-lg border border-[#2C221E]/10 max-w-xl mx-auto">
+                    <div className="bg-[#EAE3D2]/50 backdrop-blur-md p-16 text-center space-y-4 shadow-lg border border-[#2C221E]/10 max-w-xl mx-auto">
                         <p className="text-sm text-[#5F4E44] font-medium">Sua sacola está vazia no momento.</p>
                         <Link href="/" className="inline-block bg-[#C85A32] text-white px-8 py-3.5 rounded-xl text-xs uppercase tracking-wider font-semibold hover:bg-[#B04C27] transition-colors shadow-md">
                             Explorar Catálogo de Antiguidades
@@ -345,11 +342,10 @@ export default function CarrinhoPage() {
                             ))}
                         </div>
 
-                        <div className="lg:col-span-5 bg-[#EAE3D2]/60 backdrop-blur-xl p-8  shadow-xl border border-[#2C221E]/10 space-y-6 sticky top-24">
+                        <div className="lg:col-span-5 bg-[#EAE3D2]/60 backdrop-blur-xl p-8 shadow-xl border border-[#2C221E]/10 space-y-6 sticky top-24">
                             <h2 className="font-vintage text-xl font-bold tracking-tight text-[#2C221E] border-b border-[#2C221E]/10 pb-4">Resumo do Pedido</h2>
 
                             <div className="space-y-4">
-                                {/* Bloco de Consulta de Frete via API (/api/checkout/shipping) */}
                                 <div className="space-y-3 bg-[#EADFD0]/70 p-4 border border-[#2C221E]/10">
                                     <label className="text-[11px] font-bold uppercase tracking-wider text-[#5F4E44] block">Calcular Frete</label>
                                     <div className="flex gap-2">
@@ -462,7 +458,7 @@ export default function CarrinhoPage() {
                             </div>
 
                             <button
-                                onClick={finalizarcompra}
+                                onClick={finalizarCompra}
                                 disabled={carregando}
                                 className="w-full bg-[#C85A32] text-white text-xs font-bold uppercase tracking-wider py-4 hover:bg-[#B04C27] transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-[#C85A32]/20 flex items-center justify-center gap-2"
                             >

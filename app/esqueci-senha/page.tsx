@@ -1,3 +1,4 @@
+// app/esqueci-senha/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -27,21 +28,32 @@ export default function EsqueciSenhaPage() {
 
         setCarregando(true);
 
-        const res = await fetch("/api/enviar-codigo-recuperacao", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, novaSenha }),
-        });
+        try {
+            const res = await fetch("/api/esqueci-senha/enviar-codigo-recuperacao", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, novaSenha }),
+            });
 
-        const resultado = await res.json();
-        setCarregando(false);
+            let resultado: any = {};
+            try {
+                resultado = await res.json();
+            } catch {
+                throw new Error("Resposta inválida do servidor.");
+            }
 
-        if (!res.ok) {
-            setErro(resultado.erro || "Erro ao enviar o código.");
-            return;
+            if (!res.ok) {
+                setErro(resultado.erro || "Erro ao enviar o código.");
+                return;
+            }
+
+            setEtapa("codigo");
+        } catch (err) {
+            console.error(err);
+            setErro("Erro ao enviar o código. Tente novamente em instantes.");
+        } finally {
+            setCarregando(false);
         }
-
-        setEtapa("codigo");
     };
 
     const confirmarCodigo = async (e: React.FormEvent) => {
@@ -49,22 +61,33 @@ export default function EsqueciSenhaPage() {
         setErro("");
         setCarregando(true);
 
-        const res = await fetch("/api/confirmar-codigo-recuperacao", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, codigo }),
-        });
+        try {
+            const res = await fetch("/api/esqueci-senha/confirmar-codigo-recuperacao", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, codigo }),
+            });
 
-        const resultado = await res.json();
-        setCarregando(false);
+            let resultado: any = {};
+            try {
+                resultado = await res.json();
+            } catch {
+                throw new Error("Resposta inválida do servidor.");
+            }
 
-        if (!res.ok) {
-            setErro(resultado.erro || "Código inválido.");
-            return;
+            if (!res.ok) {
+                setErro(resultado.erro || "Código inválido.");
+                return;
+            }
+
+            alert("Senha redefinida com sucesso! Faça login com a nova senha.");
+            window.location.href = "/login";
+        } catch (err) {
+            console.error(err);
+            setErro("Erro ao confirmar o código. Tente novamente.");
+        } finally {
+            setCarregando(false);
         }
-
-        alert("Senha redefinida com sucesso! Faça login com a nova senha.");
-        window.location.href = "/login";
     };
 
     return (
