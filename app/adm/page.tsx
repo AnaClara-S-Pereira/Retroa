@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -161,8 +161,8 @@ export default function AdmPage() {
                                 key={aba.id}
                                 onClick={() => setAbaAtiva(aba.id)}
                                 className={`flex items-center gap-2 text-xs cursor-pointer font-semibold px-4 py-2.5 rounded-full transition-all whitespace-nowrap ${abaAtiva === aba.id
-                                        ? "bg-[#2C221E] text-[#F4EFE6]"
-                                        : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
+                                    ? "bg-[#2C221E] text-[#F4EFE6]"
+                                    : "bg-[#EADFD0] text-[#5F4E44] hover:bg-[#E2D4C1]"
                                     }`}
                             >
                                 <Icone className="w-4 h-4" />
