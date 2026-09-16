@@ -1,13 +1,12 @@
 "use client";
 export const dynamic = 'force-dynamic';
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Mail, Lock, ShieldCheck, AlertCircle } from "lucide-react";
 import { supabase } from "../lib/supabase";
-
-export default function LoginPage() {
+export default function LoginFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const erroUrl = searchParams.get("erro");
