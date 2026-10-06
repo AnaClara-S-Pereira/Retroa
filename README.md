@@ -100,4 +100,6 @@ O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital
 | **Julia Santos** | Desenvolvedora Front-end | [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos) |
 | **Ana Clara Pereira** | Desenvolvedora Back-end | [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira) |
 
-**Projeto acadêmico desenvolvido por alunos do 1º AMS da Fatec Taubaté (Faculdade de Tecnologia de Taubaté), para fins de estudo e avaliação.**
+- **Orientador: Prof. Wagner Luís dos Santos**
+
+**Projeto acadêmico desenvolvido por alunos do 1º AMS da Fatec Taubaté (Faculdade de Tecnologia de Taubaté), para fins de estudo e avaliação a matéria de Técnicas Avançadas de Programação Web e Mobile.**
