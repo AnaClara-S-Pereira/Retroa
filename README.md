@@ -1,4 +1,4 @@
-# Retrôa
+# <p><img width="500" height="500" alt="logotransp2" src="https://github.com/user-attachments/assets/018a8603-5b40-4052-9697-19e88623b7af" />etrôa</p>
 
 O **Retrôa** é um e-commerce de antiguidades garimpadas pelo Brasil. A proposta do projeto é dar um novo destino a peças antigas, reunindo em um só lugar um catálogo organizado com a história, origem e detalhes de cada item.
 
