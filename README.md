@@ -1,4 +1,4 @@
-<h1><img src="https://github.com/user-attachments/assets/018a8603-5b40-4052-9697-19e88623b7af" alt="R" height="45" align="texttop"/>etrôa</h1>
+<h1><img src="https://github.com/user-attachments/assets/bcef22c8-cae5-4367-9b34-84c3af0c9dac" alt="R" height="65" align="absbottom"/>etrôa</h1>
 
 O **Retrôa** é um e-commerce de antiguidades garimpadas pelo Brasil. A proposta do projeto é dar um novo destino a peças antigas, reunindo em um só lugar um catálogo organizado com a história, origem e detalhes de cada item.
 
@@ -16,12 +16,25 @@ O Retrôa foi desenvolvido com foco em uma experiência de compra simples e visu
 
 ## Tecnologias utilizadas
 
+<p>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" title="Next.js" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" title="React" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" title="TypeScript" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" title="Tailwind CSS" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/lucide" alt="Lucide React" title="Lucide React" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" title="Supabase" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/vercel/8B949E" alt="Vercel" title="Vercel" width="40" height="40"/>&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/render/8B949E" alt="Render" title="Render" width="40" height="40"/>
+</p>
+
 * **Next.js** — App Router
 * **React**
 * **TypeScript**
 * **Tailwind CSS**
 * **Lucide React** — ícones
 * **Supabase** — integração com banco de dados
+* **Vercel** — hospedagem do site
+* **Render** — hospedagem do banco de dados
 
 ## Como executar o projeto
 
@@ -72,9 +85,9 @@ O projeto utiliza o **App Router do Next.js**, organizando as páginas e compone
 
 ## Status do projeto
 
-**Em desenvolvimento.**
+**Em teste.**
 
-O projeto possui a interface principal e as funcionalidades de navegação, catálogo, busca, filtros e sacola. A integração com o **Supabase** está em andamento.
+O site está publicado e funcionando: navegação, catálogo, busca, filtros, sacola e finalização de compras. No momento, o **fluxo de login** está em fase de testes.
 
 ## Objetivo
 
@@ -85,4 +98,4 @@ O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital
 * **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
 * **Julia Santos** - [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos)
 
-**Projeto acadêmico desenvolvido para fins de estudo e avaliação.**
+**Projeto acadêmico desenvolvido para fins de estudo e avaliação pela Fatec - Faculdade de Tecnologia de Taubaté.**
