@@ -95,7 +95,9 @@ O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital
 
 ## Autoras
 
-* **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
-* **Julia Santos** - [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos)
+| Nome | Função | GitHub |
+|---|---|---|
+| **Julia Santos** | Desenvolvedora Front-end | [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos) |
+| **Ana Clara Pereira** | Desenvolvedora Back-end | [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira) |
 
 **Projeto acadêmico desenvolvido por alunos do 1º AMS da Fatec Taubaté (Faculdade de Tecnologia de Taubaté), para fins de estudo e avaliação.**
