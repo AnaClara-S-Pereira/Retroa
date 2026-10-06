@@ -1,4 +1,4 @@
-# <p><img width="500" height="500" alt="logotransp2" src="https://github.com/user-attachments/assets/018a8603-5b40-4052-9697-19e88623b7af" />etrôa</p>
+<h1><img src="https://github.com/user-attachments/assets/018a8603-5b40-4052-9697-19e88623b7af" alt="R" height="45" align="texttop"/>etrôa</h1>
 
 O **Retrôa** é um e-commerce de antiguidades garimpadas pelo Brasil. A proposta do projeto é dar um novo destino a peças antigas, reunindo em um só lugar um catálogo organizado com a história, origem e detalhes de cada item.
 
@@ -37,13 +37,13 @@ Antes de começar, tenha instalado:
 Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/retroa.git
+git clone https://github.com/AnaClara-S-Pereira/Retroa.git
 ```
 
 Entre na pasta do projeto:
 
 ```bash
-cd retroa
+cd Retroa
 ```
 
 Instale as dependências:
@@ -80,9 +80,9 @@ O projeto possui a interface principal e as funcionalidades de navegação, cat�
 
 O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital para quem gosta de peças com história e personalidade, além de valorizar objetos que podem ganhar um novo destino.
 
-## Autor
+## Autoras
 
 * **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
-* **Julia Santos** - [@juliasantos-Git](https://github.com/juliasantos-Git)
+* **Julia Santos** - [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos)
 
 **Projeto acadêmico desenvolvido para fins de estudo e avaliação.**
