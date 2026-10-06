@@ -98,4 +98,4 @@ O Retrôa busca unir tecnologia e antiguidades, criando uma experiência digital
 * **Ana Pereira** - [@AnaClara-S-Pereira](https://github.com/AnaClara-S-Pereira)
 * **Julia Santos** - [@JuliaKarollyne-O-Santos](https://github.com/JuliaKarollyne-O-Santos)
 
-**Projeto acadêmico desenvolvido para fins de estudo e avaliação pela Fatec - Faculdade de Tecnologia de Taubaté.**
+**Projeto acadêmico desenvolvido por alunos do 1º AMS da Fatec Taubaté (Faculdade de Tecnologia de Taubaté), para fins de estudo e avaliação.**
