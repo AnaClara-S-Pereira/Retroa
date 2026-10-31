@@ -1,21 +1,14 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+// CONFIGURACAO DO NEXT: DOMINIOS PERMITIDOS PARA IMAGENS EXTERNAS.
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'hfjbwtsmoperpsqnbcir.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: 'storage.googleapis.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.pinimg.com',
-      },
+      { protocol: "https", hostname: "hfjbwtsmoperpsqnbcir.supabase.co" },
+      { protocol: "https", hostname: "storage.googleapis.com" },
+      { protocol: "https", hostname: "i.pinimg.com" },
     ],
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

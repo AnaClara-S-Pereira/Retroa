@@ -1,3 +1,4 @@
+// API DE FRETE: CONSULTA O CEP NO VIACEP E DEVOLVE ENDERECO E OPCOES DE FRETE.
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -15,7 +16,6 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "CEP inválido. Deve conter 8 dígitos." }, { status: 400 });
         }
 
-        // Consulta oficial na API pública do ViaCEP no backend
         const respostaViaCep = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         const dadosCep = await respostaViaCep.json();
 
@@ -23,7 +23,6 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "CEP não encontrado na base de dados." }, { status: 404 });
         }
 
-        // Lógica de cálculo de frete baseada na região (Estado)
         const isSp = dadosCep.uf === "SP";
         const freteEconomico = isSp ? 18.00 : 45.00;
         const freteExpresso = isSp ? 35.00 : 80.00;
@@ -54,7 +53,7 @@ export async function POST(request: Request) {
             opcoesFrete
         }, { status: 200 });
 
-    } catch (error) {
+    } catch {
         return NextResponse.json({ error: "Erro interno ao processar o cálculo de frete." }, { status: 500 });
     }
 }

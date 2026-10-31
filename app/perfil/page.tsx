@@ -1,9 +1,12 @@
 "use client";
 
+// AREA DO CLIENTE: DADOS PESSOAIS, FOTO, PEDIDOS, CARTOES E PREFERENCIAS.
+
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Check, Package, Pencil, ShoppingBag, Trash2, X, LogOut, User, CreditCard, Bell, Ticket, Coins, ShieldCheck, ChevronRight, Clock, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Check, Package, Pencil, ShoppingBag, Trash2, X, LogOut, User, CreditCard, Bell, Ticket, Coins, ShieldCheck, ChevronRight, Clock } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 type Cliente = { email: string; nome: string; telefone?: string; endereco?: string; foto_url?: string };
@@ -33,6 +36,7 @@ const iniciais = (n: string) => {
 };
 
 export default function PerfilPage() {
+    const router = useRouter();
     const [cliente, setCliente] = useState<Cliente | null>(null);
     const [compras, setCompras] = useState<Pedido[]>([]);
     const [carregando, setCarregando] = useState(true);
@@ -47,26 +51,33 @@ export default function PerfilPage() {
     const [enviandoFoto, setEnviandoFoto] = useState(false);
     const [form, setForm] = useState({ nome: "", telefone: "", endereco: "" });
 
-    // Estados para Cartões
     const [cartoes, setCartoes] = useState<Cartao[]>([
         { id: "1", numero: "•••• •••• •••• 4092", validade: "12/28", titular: "CLIENTE RETROA", bandeira: "Mastercard" }
     ]);
     const [modalCartaoAberto, setModalCartaoAberto] = useState(false);
     const [novoCartao, setNovoCartao] = useState({ numero: "", validade: "", cvv: "", titular: "" });
 
-    // Estados para Senha com visibilidade
-    const [senhaForm, setSenhaForm] = useState({ atual: "", nova: "", confirma: "" });
-    const [mostrarSenhaAtual, setMostrarSenhaAtual] = useState(false);
-    const [mostrarSenhaNova, setMostrarSenhaNova] = useState(false);
 
-    // Estados de Configurações
     const [notifConfig, setNotifConfig] = useState({ email: true, whatsapp: false, promocoes: true });
     const [cookieConfig, setCookieConfig] = useState({ essenciais: true, analiticos: true, marketing: false });
     const [privacidadeConfig, setPrivacidadeConfig] = useState({ perfilPublico: false, compartilharDadosParceiros: false, exibirHistorico: true });
 
     const fotoRef = useRef<HTMLInputElement>(null);
 
+    async function buscarPedidos(email: string) {
+        setCarregando(true);
+        const { data: pedidos, error } = await supabase.from("Pedidos").select("*").eq("cliente_email", email).order("id", { ascending: false });
+        if (error) { console.error(error); setCompras([]); } else setCompras((pedidos || []) as Pedido[]);
+        setCarregando(false);
+    }
+
     useEffect(() => {
+        const sessaoUrl = new URLSearchParams(window.location.search).get("sessao");
+        if (sessaoUrl) {
+            localStorage.setItem("retroa_sessao", sessaoUrl);
+            window.history.replaceState(null, "", "/perfil");
+        }
+
         const raw = localStorage.getItem("retroa_sessao");
         if (!raw) return setCarregando(false);
         try {
@@ -76,13 +87,6 @@ export default function PerfilPage() {
             if (c.email) buscarPedidos(c.email); else setCarregando(false);
         } catch (e) { console.error(e); setCarregando(false); }
     }, []);
-
-    async function buscarPedidos(email: string) {
-        setCarregando(true);
-        const { data: pedidos, error } = await supabase.from("Pedidos").select("*").eq("cliente_email", email).order("id", { ascending: false });
-        if (error) { console.error(error); setCompras([]); } else setCompras((pedidos || []) as Pedido[]);
-        setCarregando(false);
-    }
 
     function atualizarSessao(dados: Partial<Cliente>) {
         const raw = localStorage.getItem("retroa_sessao");
@@ -137,21 +141,6 @@ export default function PerfilPage() {
         }
     }
 
-    function alterarSenha(e: React.FormEvent) {
-        e.preventDefault();
-        if (!senhaForm.atual || !senhaForm.nova || !senhaForm.confirma) {
-            return alert("Preencha todos os campos de senha.");
-        }
-        if (senhaForm.nova.length < 6) {
-            return alert("A nova senha deve ter pelo menos 6 caracteres.");
-        }
-        if (senhaForm.nova !== senhaForm.confirma) {
-            return alert("A nova senha e a confirmação não coincidem.");
-        }
-        alert("Senha alterada com sucesso!");
-        setSenhaForm({ atual: "", nova: "", confirma: "" });
-    }
-
     function iniciarEdicao() {
         if (!cliente) return;
         setForm({ nome: cliente.nome || "", telefone: cliente.telefone || "", endereco: cliente.endereco || "" });
@@ -195,7 +184,7 @@ export default function PerfilPage() {
 
     function sair() {
         localStorage.removeItem("retroa_sessao");
-        window.location.href = "/login";
+        router.push("/login");
     }
 
     const comprasFiltradas = compras.filter(p => {
@@ -496,16 +485,15 @@ export default function PerfilPage() {
                                         <div>
                                             <p className="font-bold text-sm">Verificar Identidade</p>
                                             <p className="text-xs opacity-60 mt-1">
-                                                Para alterar sua senha, enviaremos um link de confirmação para o seu e-mail cadastrado (<strong className="opacity-90">{cliente.email}</strong>).
+                                                Para alterar sua senha, enviaremos um código de confirmação para o seu e-mail cadastrado (<strong className="opacity-90">{cliente.email}</strong>).
                                             </p>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => alert(`Link de verificação enviado com sucesso para ${cliente.email}! Verifique sua caixa de entrada.`)}
-                                            className="w-full bg-[#3B5249] py-2.5 text-xs font-bold uppercase tracking-wider text-[#EFE4D3] hover:bg-[#8C3A29] transition-colors shadow-sm cursor-pointer rounded"
+                                        <Link
+                                            href="/esqueci-senha"
+                                            className="block w-full bg-[#3B5249] py-2.5 text-xs font-bold uppercase tracking-wider text-[#EFE4D3] hover:bg-[#8C3A29] transition-colors shadow-sm cursor-pointer rounded"
                                         >
-                                            Verificar via link por E-mail
-                                        </button>
+                                            Trocar senha por código no E-mail
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -517,7 +505,6 @@ export default function PerfilPage() {
                                     <p className="text-xs opacity-60 mt-0.5">Escolha quais cookies você permite que o Retrôa utilize</p>
                                 </div>
                                 <div className="mt-8 space-y-6 text-sm">
-                                    {/* Cookie Essencial */}
                                     <div className="flex items-center justify-between border-b border-[#2C221E]/10 pb-4">
                                         <div>
                                             <p className="font-bold">Cookies Essenciais</p>
@@ -528,7 +515,6 @@ export default function PerfilPage() {
                                         </div>
                                     </div>
 
-                                    {/* Cookie Analítico (Toggle Estilizado com bolinha) */}
                                     <div className="flex items-center justify-between border-b border-[#2C221E]/10 pb-4">
                                         <div>
                                             <p className="font-bold">Cookies Analíticos</p>
@@ -543,7 +529,6 @@ export default function PerfilPage() {
                                         </button>
                                     </div>
 
-                                    {/* Cookie Marketing (Toggle Estilizado com bolinha) */}
                                     <div className="flex items-center justify-between pb-4">
                                         <div>
                                             <p className="font-bold">Cookies de Marketing</p>

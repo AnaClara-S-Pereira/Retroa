@@ -1,5 +1,7 @@
 "use client";
 
+// TELA MOSTRADA QUANDO O LOGIN COM GOOGLE USA UMA CONTA SEM CADASTRO.
+
 import Link from "next/link";
 import Image from "next/image";
 import { AlertCircle, UserPlus, ArrowLeft } from "lucide-react";

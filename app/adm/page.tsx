@@ -1,8 +1,11 @@
 "use client";
-export const dynamic = 'force-dynamic';
+
+// PAINEL ADMINISTRATIVO: DASHBOARD, PRODUTOS, PEDIDOS E CLIENTES. EXIGE SESSAO DE ADMIN.
+export const dynamic = "force-dynamic";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
     ArrowLeft,
     LayoutDashboard,
@@ -60,27 +63,28 @@ const ABAS = [
 type AbaId = (typeof ABAS)[number]["id"];
 
 export default function AdmPage() {
+    const router = useRouter();
     const [autenticado, setAutenticado] = useState<boolean | null>(null);
 
     useEffect(() => {
         const sessao = localStorage.getItem("retroa_admin_sessao");
         if (!sessao) {
-            window.location.href = "/login";
+            router.push("/login");
             return;
         }
         setAutenticado(true);
-    }, []);
+    }, [router]);
 
     const sairDoAdm = () => {
         localStorage.removeItem("retroa_admin_sessao");
-        window.location.href = "/";
+        router.push("/");
     };
 
     const [abaAtiva, setAbaAtiva] = useState<AbaId>("dashboard");
 
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [clientes, setClientes] = useState<Cliente[]>([]);
-    const [pedidos, setPedidos] = useState<any[]>([]);
+    const [pedidos, setPedidos] = useState<Record<string, unknown>[]>([]);
     const [carregandoDados, setCarregandoDados] = useState(true);
 
     const [mostrarFormProduto, setMostrarFormProduto] = useState(false);
@@ -112,12 +116,10 @@ export default function AdmPage() {
     const formatarPreco = (valor: number) =>
         Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-    // Ainda checando a sessão ou redirecionando pro login
     if (!autenticado) {
         return <div className="min-h-screen bg-[#F4EFE6]" />;
     }
 
-    // Autenticado: mostra o painel normalmente
     return (
         <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased">
             <nav className="border-b border-[#2C221E]/10 bg-[#F4EFE6]/95 sticky top-0 z-30">
@@ -152,7 +154,6 @@ export default function AdmPage() {
             </nav>
 
             <div className="max-w-7xl mx-auto px-6 py-8">
-                {/* ABAS */}
                 <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-1">
                     {ABAS.map((aba) => {
                         const Icone = aba.icone;
@@ -172,7 +173,6 @@ export default function AdmPage() {
                     })}
                 </div>
 
-                {/* DASHBOARD */}
                 {abaAtiva === "dashboard" && (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                         <div className="bg-[#EAE3D2]/40 border border-[#2C221E]/10 rounded-lg p-6 space-y-2">
@@ -193,7 +193,6 @@ export default function AdmPage() {
                     </div>
                 )}
 
-                {/* PRODUTOS */}
                 {abaAtiva === "produtos" && (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
@@ -263,7 +262,6 @@ export default function AdmPage() {
                     </div>
                 )}
 
-                {/* PEDIDOS */}
                 {abaAtiva === "pedidos" && (
                     <div className="space-y-6">
                         <h2 className="font-vintage text-2xl font-medium">Pedidos</h2>
@@ -296,12 +294,11 @@ export default function AdmPage() {
                             )}
                         </div>
                         <p className="text-[11px] text-[#5F4E44]">
-                            Essa tabela mostra automaticamente todas as colunas que existirem na tabela "Pedidos" do Supabase.
+                            Essa tabela mostra automaticamente todas as colunas que existirem na tabela &quot;Pedidos&quot; do Supabase.
                         </p>
                     </div>
                 )}
 
-                {/* CLIENTES */}
                 {abaAtiva === "clientes" && (
                     <div className="space-y-6">
                         <h2 className="font-vintage text-2xl font-medium">Clientes</h2>

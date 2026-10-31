@@ -1,5 +1,7 @@
 "use client";
 
+// CATALOGO COMPLETO: BUSCA, FILTRO POR CATEGORIA, ORDENACAO POR PRECO E MODAL DE DETALHES.
+
 import { useState, useEffect, useRef } from "react";
 import { Search, ShoppingBag, X, User, ArrowLeft, ArrowUpDown, ChevronDown } from "lucide-react";
 import Image from "next/image";
@@ -41,7 +43,7 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
         preco: 480.00,
         descricao: "Peça única em cerâmica, com pintura clássica marajoara.",
         categoria: "Cerâmica",
-        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/22030188-a52b-48b7-9ce9-085cd79c80dc?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=6f9948d3a3fa31ad9bf85dee9efa4f36e297755de4ee063660616d6917d0d25b5eccf9256c2c4d9f56c23897ec39f42050afd3d13e095cee8db47f47327dec96107b467dc145f947da26f7fdcd04cf27805f3f02c3b08f1b943bc11424408103c14e09269b71a8bd4ebce57a0367a770891ccd57eecea105c8afb832b3ab77c91c542a96b28e6a5c5aff1a6cd7a26ebb482e5a98a71d96823bc138e90f25ba495ffbf08ab65b564dcba356de2e4680dc53592b26c013293d91fe161f159f6076437b1dd03c72edeb3253677ad2e3843873a4445447092e36de6da9c7805d9bf28c73fbd4bfe86621741719b1d03d090fb31a002c9ab9ca4d9d9f7a793f579d92&X-Goog-SignedHeaders=host"
+        imagem: "/vaso.png"
     },
     {
         id: 2,
@@ -49,7 +51,7 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
         preco: 950.00,
         descricao: "Máquina de escrever mecânica revisada e pronta para uso.",
         categoria: "Escritório",
-        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/7b8f95cd-a7d4-4563-97c3-ee326abd8492?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=9ae9389d5e7a794e2c5f30196f5e07c9a5a9bdbcaef7ac4429bca7ca5f159f04b8b8fc4b37330e0407c25b69458bb3d72656c5f150c2a741d8463e9cf74f66926348db11696ad0bf48983b9aa89a8b07122b845939c22ce8e9c46577cb56e5cc5cd5b9fdbafdf20ed4e120b4c7a404093661eb761ab7b0f2e0ce0db62018b14284ff0941156b4b49bcdd73a02555e727cf52a5a43363e57d1b7484cd6bdf3facf8f0291f3493b7fd715eefadd720ed25123c601f04696eb401897106443097cba04d34c713f861310c800655cc4695f3195bd5157690c18d33ff734f781d3aaa6449a0cfe2187ab4de436b862d0e1de72051877825dd6086abf09eccf13a092b&X-Goog-SignedHeaders=host"
+        imagem: "/maquinaEscrever.png"
     },
     {
         id: 3,
@@ -57,7 +59,7 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
         preco: 720.00,
         descricao: "Abajur funcionando, base em latão envelhecido.",
         categoria: "Iluminação",
-        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/55132758-4bc6-49bd-ab9a-bf88b27651ba?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=ce7b2fd2dc8ab3f0a926b5067a15d09e180e63d8f17dfc61e0bf00698fa193374306e2bf66e7761a316635fd2b0c453f9acca7adfa8f7129af3f6bfe5dc7dcb06cc840204de3d40ae9111febff1d4b728eb3194d1491ecb9b28ba42ae7ce455ca6fc7419f6feac27acdee7b18305a908be92887c90ef9164df26920018a003744aef15676ecaaf27faf87d6ce59842aaaa830c4588bb40a7891fc186d3a7ccea1e6217cad075c30776921eec21d2220bbe37b3f0141d8ea4040ac82acd448da57d5965bf8fa13b49db85aa31ce90b50ed0c5d41a8b2b9c050b004b3392a0f525cc7774238a5cb14ddf45f9b67f3fc23fbd8b25cd20780e0fc256938840538605&X-Goog-SignedHeaders=host"
+        imagem: "/abajur.png"
     },
     {
         id: 4,
@@ -65,7 +67,7 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
         preco: 1280.00,
         descricao: "Relíquia rara, rádio de mesa com caixa de madeira.",
         categoria: "Música",
-        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/9a1ac950-9baa-4879-be13-7ae3343f5439?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=aeeb6432755a4978d061d9248c180c2cfac4cf21d46c040fada04d798382afcdd978756736cced2522d03cc4b5773d99c54cb086aafbb5aa9d912b8c67693c054a179f79d90de0b9cbb947bb200003804f8e1fe4e9c3a023f440b4298040872d23391dceca5f9c0f8165d05345d03b5960e7e737d468eb12793310858a84d7d2f958a2a8550ebf4d31805748de79daf0325a8c7d2a697b4d23a79ceecf6b286c848af98ddeacec74d29f181ffa4fff4694a23f7d6a0d29a9c9ca8631ffec3360bbb12a35bfaae46cc6e1dc6d3c139ace4ffdf7281a9613c9551d6b9d84ffc8dd5380ec345932c40bb4b8f615e72f4f019fc1dffa03af7f4a26699c8225fc02e6&X-Goog-SignedHeaders=host"
+        imagem: "/radio.png"
     },
     {
         id: 5,
@@ -73,7 +75,7 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
         preco: 1150.00,
         descricao: "Peça rara, espelho com moldura entalhada e acabamento dourado.",
         categoria: "Decoração",
-        imagem: "https://storage.googleapis.com/gpt-engineer-file-uploads/83501f6f-600d-4266-a5ed-61c1c84690ac/image-gen/02750807-c7c6-4d76-ab68-137e2fd7309e?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=go-api%40lovable-core-prod.iam.gserviceaccount.com%2F20260908%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260908T013154Z&X-Goog-Expires=3599&X-Goog-Signature=a34a894d0177959b9f9325b57e774522912de9d81e938e97ade8d508cfb9600f343fff9db3cda887ee30674118b616e2e49348977224db2a655990e42c2e8f32ef88cae98873980e02147040d421e809f60880286f3e09223c054783295aa99aa5eb10ed608123870f6e93c78e3c2c84e0da32b465a0a324d56527f80d1c3113ee6be044c2867a83d52747304bae84defcbeeb4497d22a995480c7fb4f56f3fd6b8a7d0106c939d4af1b2d854db5f9f46b7b49ff040997bba4bb63e7e0403325bb0fb6e8e12efcdc376ae7832596c7431b1852694eb94ba3db6fe17db57034c29db99fe020178ccbec42e02b81700f9ac04c5ab316f93af8daf1c751cf59cb6d&X-Goog-SignedHeaders=host"
+        imagem: "/espelho.png"
     },
     {
         id: 6,
@@ -173,6 +175,8 @@ const PRODUTOS_INICIAIS_EXEMPLO = [
     }
 ];
 
+type Usuario = { id?: number; nome?: string; email: string; foto_url?: string };
+
 export default function ProdutosPage() {
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [carregando, setCarregando] = useState(true);
@@ -180,7 +184,7 @@ export default function ProdutosPage() {
     const [categoriaAtiva, setCategoriaAtiva] = useState("Todas");
     const [ordemPreco, setOrdemPreco] = useState<OrdemPreco>("relevancia");
     const [menuPrecoAberto, setMenuPrecoAberto] = useState(false);
-    const [usuario, setUsuario] = useState<any>(null);
+    const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | null>(null);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -253,13 +257,7 @@ export default function ProdutosPage() {
 
     return (
         <>
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
-                .font-vintage { font-family: 'Playfair Display', Georgia, serif; }
-            `}</style>
-
             <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased">
-                {/* NAVBAR */}
                 <nav className="sticky top-0 z-40 bg-[#F4EFE6]/95 backdrop-blur-md border-b border-[#2C221E]/10">
                     <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
                         <Link href="/" className="flex items-center">
@@ -318,7 +316,6 @@ export default function ProdutosPage() {
                 </nav>
 
                 <main className="max-w-7xl mx-auto px-6 py-12">
-                    {/* CABEÇALHO DA PÁGINA */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#2C221E]/10 pb-4 mb-8 gap-4">
                         <div>
                             <span className="text-[11px] font-semibold uppercase tracking-widest text-[#C85A32]">
@@ -347,7 +344,6 @@ export default function ProdutosPage() {
                             ))}
                         </div>
 
-                        {/* Dropdown Customizado para Ordenar */}
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 type="button"
@@ -384,7 +380,6 @@ export default function ProdutosPage() {
                         </div>
                     </div>
 
-                    {/* LISTA DE PRODUTOS */}
                     {carregando ? (
                         <div className="text-center py-16 text-[#5F4E44] text-sm">Carregando produtos...</div>
                     ) : produtosFiltrados.length === 0 ? (
@@ -450,7 +445,6 @@ export default function ProdutosPage() {
                     )}
                 </main>
 
-                {/* DETALHES DO PRODUTO (MODAL) */}
                 {produtoSelecionado && (
                     <div className="fixed inset-0 z-50 bg-[#2C221E]/60 backdrop-blur-sm flex items-center justify-center p-4">
                         <div className="bg-[#F4EFE6] rounded-lg max-w-2xl w-full p-6 relative shadow-2xl border border-[#2C221E]/20">

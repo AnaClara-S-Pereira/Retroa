@@ -1,10 +1,9 @@
-// app/api/esqueci-senha/enviar-codigo-recuperacao/route.ts
+// API QUE GERA O CODIGO DE RECUPERACAO E ENVIA POR E-MAIL.
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { transportador } from "../../../lib/mailer";
 
 export async function POST(request: Request) {
-  // Inicializamos o Supabase aqui dentro da função
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!

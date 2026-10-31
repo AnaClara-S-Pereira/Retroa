@@ -1,8 +1,11 @@
 "use client";
 
+// LISTA OS PEDIDOS DO CLIENTE LOGADO COM BARRA DE PROGRESSO DE ENTREGA.
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Package, Clock, Truck, CheckCircle2, RotateCcw } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Package } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 interface Pedido {
@@ -15,42 +18,33 @@ interface Pedido {
 }
 
 export default function MeusPedidosPage() {
+    const router = useRouter();
     const [pedidos, setPedidos] = useState<Pedido[]>([]);
     const [carregando, setCarregando] = useState(true);
 
     useEffect(() => {
-        carregarPedidos();
-    }, []);
-
-    const carregarPedidos = async () => {
         const sessaoStr = localStorage.getItem("retroa_sessao");
         if (!sessaoStr) {
-            window.location.href = "/login";
+            router.push("/login");
             return;
         }
 
         const cliente = JSON.parse(sessaoStr);
 
-        // Busca os pedidos do cliente logado no Supabase
-        const { data, error } = await supabase
+        supabase
             .from("Pedidos")
             .select("*")
-            .eq("cliente_email", cliente.email);
+            .eq("cliente_email", cliente.email)
+            .then(({ data, error }) => {
+                if (error) {
+                    console.error("Erro ao buscar pedidos:", error.message);
+                } else if (data) {
+                    setPedidos(data.map((p: Pedido) => ({ ...p, status: p.status || "pendente" })));
+                }
+                setCarregando(false);
+            });
+    }, [router]);
 
-        if (error) {
-            console.error("Erro ao buscar pedidos:", error.message);
-        } else if (data) {
-            // Mapeia os dados garantindo que tenham um status válido para o fluxo
-            const pedidosFormatados = data.map((p: any) => ({
-                ...p,
-                status: p.status || "pendente" // Define pendente como padrão caso a coluna esteja vazia
-            }));
-            setPedidos(pedidosFormatados);
-        }
-        setCarregando(false);
-    };
-
-    // Retorna a etapa atual para preencher a barra de progresso
     const obterProgresso = (status: string) => {
         switch (status) {
             case "pendente": return 1;
@@ -119,7 +113,6 @@ export default function MeusPedidosPage() {
                                         <p className="text-xs font-serif text-[#2C221E]">{pedido.itens}</p>
                                     </div>
 
-                                    {/* Barra de Progresso Visual */}
                                     <div className="pt-4 space-y-3">
                                         <div className="flex justify-between text-[10px] uppercase tracking-wider font-medium text-stone-500">
                                             <span className={etapa >= 1 ? "text-[#2C221E] font-bold" : ""}>Aguardando</span>

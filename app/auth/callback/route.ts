@@ -1,3 +1,4 @@
+// CALLBACK DO LOGIN COM GOOGLE: CRIA/BUSCA O CLIENTE E REDIRECIONA PARA O PERFIL.
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -35,20 +36,17 @@ export async function GET(request: Request) {
         session.user.user_metadata?.name ||
         "Cliente Google";
 
-      // 1. Busca se já existe no banco
       let { data: cliente } = await supabase
         .from("Clientes")
         .select("*")
         .eq("email", userEmail)
         .maybeSingle();
 
-      // 2. Se a intenção foi "login" e a conta não existe, bloqueia
       if (!cliente && acao === "login") {
         await supabase.auth.signOut();
         return NextResponse.redirect(`${origin}/login/erro`);
       }
 
-      // 3. Se não existe e veio pelo Cadastro, cria a conta na tabela Clientes
       if (!cliente) {
         const { data: novoCliente, error: erroCadastro } = await supabase
           .from("Clientes")
@@ -70,7 +68,6 @@ export async function GET(request: Request) {
         cliente = novoCliente;
       }
 
-      // 4. Redireciona para o perfil passando os dados para a página salvar no localStorage
       const clienteData = encodeURIComponent(
         JSON.stringify({
           id: cliente.id,

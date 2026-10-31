@@ -1,15 +1,12 @@
+// LAYOUT RAIZ: METADADOS DO SITE E FONTE PLAYFAIR USADA NOS TITULOS (CLASSE font-vintage).
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -17,12 +14,10 @@ export const metadata: Metadata = {
   description: "Loja de Antiguidades",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className="scroll-smooth">
-      <body className="...">
-        {children}
-      </body>
+    <html lang="pt-BR" className={`scroll-smooth ${playfair.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

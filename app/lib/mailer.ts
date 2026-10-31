@@ -1,5 +1,6 @@
-// app/lib/mailer.ts
+// CONFIGURACAO DO ENVIO DE E-MAIL (GMAIL).
 import nodemailer from "nodemailer";
+
 export const transportador = nodemailer.createTransport({
   service: "gmail",
   auth: {

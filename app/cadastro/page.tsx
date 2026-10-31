@@ -1,12 +1,16 @@
 "use client";
 
+// TELA DE CADASTRO DE CLIENTE POR E-MAIL/SENHA OU GOOGLE.
+
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, User, Mail, Lock, ShieldCheck } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function CadastroPage() {
+    const router = useRouter();
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -35,11 +39,11 @@ export default function CadastroPage() {
         }
 
         const clienteCriado = data ? data[0] : { nome, email };
-        const { senha: _senhaOmitida, ...clienteSemSenha } = clienteCriado;
-        localStorage.setItem("retroa_sessao", JSON.stringify(clienteSemSenha));
+        delete clienteCriado.senha;
+        localStorage.setItem("retroa_sessao", JSON.stringify(clienteCriado));
 
         alert("Conta criada com sucesso!");
-        window.location.href = "/carrinho";
+        router.push("/carrinho");
     };
 
     const cadastrarComGoogle = async () => {

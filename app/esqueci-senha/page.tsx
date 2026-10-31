@@ -1,12 +1,15 @@
-// app/esqueci-senha/page.tsx
 "use client";
+
+// RECUPERACAO DE SENHA EM DUAS ETAPAS: PEDE O CODIGO POR E-MAIL E DEPOIS CONFIRMA.
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Mail, Lock, KeyRound, ShieldCheck } from "lucide-react";
 
 export default function EsqueciSenhaPage() {
+    const router = useRouter();
     const [etapa, setEtapa] = useState<"solicitar" | "codigo">("solicitar");
 
     const [email, setEmail] = useState("");
@@ -35,12 +38,7 @@ export default function EsqueciSenhaPage() {
                 body: JSON.stringify({ email, novaSenha }),
             });
 
-            let resultado: any = {};
-            try {
-                resultado = await res.json();
-            } catch {
-                throw new Error("Resposta inválida do servidor.");
-            }
+            const resultado = await res.json();
 
             if (!res.ok) {
                 setErro(resultado.erro || "Erro ao enviar o código.");
@@ -68,12 +66,7 @@ export default function EsqueciSenhaPage() {
                 body: JSON.stringify({ email, codigo }),
             });
 
-            let resultado: any = {};
-            try {
-                resultado = await res.json();
-            } catch {
-                throw new Error("Resposta inválida do servidor.");
-            }
+            const resultado = await res.json();
 
             if (!res.ok) {
                 setErro(resultado.erro || "Código inválido.");
@@ -81,7 +74,7 @@ export default function EsqueciSenhaPage() {
             }
 
             alert("Senha redefinida com sucesso! Faça login com a nova senha.");
-            window.location.href = "/login";
+            router.push("/login");
         } catch (err) {
             console.error(err);
             setErro("Erro ao confirmar o código. Tente novamente.");

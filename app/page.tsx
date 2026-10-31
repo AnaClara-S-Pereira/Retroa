@@ -1,5 +1,7 @@
 "use client";
 
+// PAGINA INICIAL: VITRINE DE PRODUTOS, BUSCA POR CATEGORIA, MODAL DE DETALHES E SECAO SOBRE.
+
 import { useState, useEffect } from "react";
 import {
   Search,
@@ -9,7 +11,6 @@ import {
   ShieldCheck,
   Truck,
   User,
-  ArrowLeft,
   Compass,
   Sparkles,
   HeartHandshake,
@@ -92,6 +93,9 @@ const PRODUTOS_MOCK = [
   },
 ];
 
+type Usuario = { id?: number; nome?: string; email: string; foto_url?: string };
+type Produto = (typeof PRODUTOS_MOCK)[number];
+
 const CATEGORIAS = [
   "Todas",
   "Cerâmica",
@@ -105,7 +109,7 @@ const CATEGORIAS = [
 export default function Home() {
   const [busca, setBusca] = useState("");
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todas");
-  const [usuario, setUsuario] = useState<any>(null);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
 
   const [carrinho, setCarrinho] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
@@ -115,9 +119,7 @@ export default function Home() {
     return [];
   });
 
-  const [produtoSelecionado, setProdutoSelecionado] = useState<any | null>(
-    null,
-  );
+  const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | null>(null);
 
   useEffect(() => {
     const sessaoAtiva = localStorage.getItem("retroa_sessao");
@@ -148,13 +150,7 @@ export default function Home() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap');
-        .font-vintage { font-family: 'Playfair Display', Georgia, serif; }
-      `}</style>
-
       <div className="min-h-screen bg-[#F4EFE6] text-[#2C221E] font-sans antialiased relative">
-        {/* NAVBAR */}
         <nav className="sticky top-0 z-40 bg-[#F4EFE6]/95 backdrop-blur-md border-b border-[#2C221E]/10">
           <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
             <Link href="/" className="flex items-center">
@@ -245,7 +241,6 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* HEADER / HERO */}
         <header className="relative w-full min-h-[420px] flex items-center overflow-hidden bg-[#1A1412]">
           <div className="absolute inset-0 z-0 flex items-center justify-end overflow-hidden">
             <div className="relative w-[130%] h-full">
@@ -279,7 +274,6 @@ export default function Home() {
           </div>
         </header>
 
-        {/* CATALOGO DE PRODUTOS */}
         <section
           id="produtos"
           className="max-w-7xl mx-auto px-6 py-16 scroll-mt-20"
@@ -386,7 +380,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SEÇÃO SOBRE (INCORPORADA) */}
         <section
           id="sobre"
           className="relative max-w-7xl mx-auto px-6 py-20 border-t border-[#2C221E]/10 scroll-mt-20"
@@ -430,15 +423,14 @@ export default function Home() {
 
               <div className="absolute -bottom-5 -left-4 bg-[#2C221E] text-[#F4EFE6] p-5 hidden sm:block max-w-xs shadow-2xl border border-[#7F5E39] rounded">
                 <p className="font-vintage italic text-sm leading-snug">
-                  "O tempo não desgasta a beleza, apenas a torna única e
-                  irrepetível."
+                  &ldquo;O tempo não desgasta a beleza, apenas a torna única e
+                  irrepetível.&rdquo;
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SECAO COMO TRABALHAMOS */}
         <section id="como-trabalhamos" className="relative overflow-hidden py-20 scroll-mt-35">
           <div className="absolute inset-0 z-0">
             <Image
@@ -449,7 +441,6 @@ export default function Home() {
               priority
             />
           </div>
-          {/* Sombreado mais forte, pra garantir contraste com o texto branco */}
           <div className="absolute inset-0 z-10 bg-black/30 pointer-events-none" />
 
           <div className="relative z-20 max-w-7xl mx-auto px-6">
@@ -505,7 +496,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* DETALHES DO PRODUTO (MODAL) */}
         {produtoSelecionado && (
           <div className="fixed inset-0 z-50 bg-[#2C221E]/60 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="bg-[#F4EFE6] rounded-lg max-w-2xl w-full p-6 relative shadow-2xl border border-[#2C221E]/20">
@@ -559,7 +549,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* FOOTER PRINCIPAL */}
         <footer className="border-t border-[#2C221E]/10 bg-[#EAE3D2]/40 py-12">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-[#5F4E44] mb-8">
             <div className="flex items-center justify-center gap-3 text-center">

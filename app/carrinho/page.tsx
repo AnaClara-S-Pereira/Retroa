@@ -1,8 +1,11 @@
 "use client";
 
+// CARRINHO E CHECKOUT: CALCULA FRETE, REGISTRA O PEDIDO NO SUPABASE E MOSTRA O COMPROVANTE.
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Trash2, CheckCircle, QrCode, CreditCard, Barcode, FileText } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -15,13 +18,38 @@ const PRODUTOS_MOCK = [
     { id: "6", nome: "Poltrona em madeira nobre e palhinha indiana", preco: 2100.00, imagem: "/cadeira.png" },
 ];
 
+type Produto = (typeof PRODUTOS_MOCK)[number];
+type Frete = { id: string; nome: string; preco: number; prazo: string };
+type Endereco = { cep: string; logradouro: string; bairro: string; cidade: string; uf: string };
+type DadosPedido = {
+    codigo: string;
+    clienteNome: string;
+    clienteEmail: string;
+    clienteCpf: string;
+    metodo: string;
+    itens: Produto[];
+    subtotal: number;
+    freteNome: string;
+    fretePreco: number;
+    enderecoDestino: string;
+    total: number;
+    data: string;
+    vencimentoBoleto: string;
+    linhaDigitavel: string;
+    codigoBarras: string;
+    chavePix: string;
+};
+
+const numeroAleatorio = (min: number, max: number) => Math.floor(min + Math.random() * (max - min));
+
 export default function CarrinhoPage() {
-    const [itensCarrinho, setItensCarrinho] = useState<any[]>(() => {
+    const router = useRouter();
+    const [itensCarrinho, setItensCarrinho] = useState<Produto[]>(() => {
         if (typeof window === "undefined") return [];
         try {
             const idsSalvos = JSON.parse(localStorage.getItem("retroa_carrinho") || "[]");
             return PRODUTOS_MOCK.filter((p) => idsSalvos.includes(p.id));
-        } catch (e) {
+        } catch {
             return [];
         }
     });
@@ -30,13 +58,13 @@ export default function CarrinhoPage() {
     const [carregando, setCarregando] = useState(false);
     const [metodoPagamento, setMetodoPagamento] = useState("pix");
     const [cpfNota, setCpfNota] = useState("");
-    const [dadosUltimoPedido, setDadosUltimoPedido] = useState<any>(null);
+    const [dadosUltimoPedido, setDadosUltimoPedido] = useState<DadosPedido | null>(null);
     const [copiadoPix, setCopiadoPix] = useState(false);
 
     const [cepInput, setCepInput] = useState("");
-    const [dadosEndereco, setDadosEndereco] = useState<any>(null);
-    const [opcoesFrete, setOpcoesFrete] = useState<any[]>([]);
-    const [freteSelecionado, setFreteSelecionado] = useState<any>(null);
+    const [dadosEndereco, setDadosEndereco] = useState<Endereco | null>(null);
+    const [opcoesFrete, setOpcoesFrete] = useState<Frete[]>([]);
+    const [freteSelecionado, setFreteSelecionado] = useState<Frete | null>(null);
     const [carregandoFrete, setCarregandoFrete] = useState(false);
 
     useEffect(() => {
@@ -94,7 +122,7 @@ export default function CarrinhoPage() {
 
         if (!sessaoStr) {
             alert("Você precisa estar logado para finalizar a compra!");
-            window.location.href = "/login";
+            router.push("/login");
             return;
         }
 
@@ -107,10 +135,10 @@ export default function CarrinhoPage() {
         setCarregando(true);
 
         const nomesItens = itensCarrinho.map(i => i.nome).join(", ");
-        const codigoPedidoUnico = "RET-" + Math.floor(100000 + Math.random() * 900000);
+        const codigoPedidoUnico = "RET-" + numeroAleatorio(100000, 1000000);
 
-        const linhaDigitavelBoleto = "34191.79001 01043.510047 91202.260003 1 " + Math.floor(10000000000 + Math.random() * 90000000000);
-        const codigoBarrasBoleto = "341939120000" + Math.floor(100000000000 + Math.random() * 900000000000);
+        const linhaDigitavelBoleto = "34191.79001 01043.510047 91202.260003 1 " + numeroAleatorio(10000000000, 100000000000);
+        const codigoBarrasBoleto = "341939120000" + numeroAleatorio(100000000000, 1000000000000);
         const chavePixAleatoria = "00020126580014br.gov.bcb.pix0136retroa-e-commerce-oficial-2026-uuid5204000053039865405" + total.toFixed(2) + "5802BR5925RETROA COMERCIO DE ANTIG6009SAO PAULO62070503***6304";
 
         const novoPedido = {
@@ -144,7 +172,7 @@ export default function CarrinhoPage() {
             enderecoDestino: `${dadosEndereco.logradouro}, ${dadosEndereco.bairro} - ${dadosEndereco.cidade}/${dadosEndereco.uf} (CEP: ${dadosEndereco.cep})`,
             total: total,
             data: new Date().toLocaleDateString(),
-            vencimentoBoleto: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+            vencimentoBoleto: new Date(new Date().getTime() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString(),
             linhaDigitavel: linhaDigitavelBoleto,
             codigoBarras: codigoBarrasBoleto,
             chavePix: chavePixAleatoria
@@ -248,7 +276,7 @@ export default function CarrinhoPage() {
                         </div>
                         <div className="border-t border-[#2C221E]/10 pt-3 space-y-2">
                             <p className="font-bold text-[#2C221E] text-[11px] uppercase tracking-wider">Itens e Frete:</p>
-                            {dadosUltimoPedido.itens.map((item: any, index: number) => (
+                            {dadosUltimoPedido.itens.map((item: Produto, index: number) => (
                                 <div key={index} className="flex justify-between text-[#5F4E44]">
                                     <span>{item.nome}</span>
                                     <span className="font-mono">R$ {item.preco.toFixed(2)}</span>
